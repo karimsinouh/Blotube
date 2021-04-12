@@ -38,14 +38,16 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
+
             navController= rememberNavController()
             navBackStackEntry=navController.currentBackStackEntryAsState()
             currentRoot=navBackStackEntry.value?.arguments?.get(KEY_ROUTE).toString()
-            Log.d("wtf",currentRoot)
+
+            val shouldShowMenu=vm.menuItems.containsRoot(currentRoot)
 
             Scaffold(
-                bottomBar = { BottomBar() },
-                topBar = {TopBar()}
+                bottomBar = { BottomBar(shouldShowMenu) },
+                topBar = {TopBar(shouldShowMenu)}
             ) {
                 Content()
             }
@@ -56,25 +58,18 @@ class MainActivity : ComponentActivity() {
 
 
     @Composable
-    @Preview
-    private fun TopBar(){
-        TopAppBar(
-            backgroundColor = MaterialTheme.colors.background,
-            contentColor = MaterialTheme.colors.onBackground,
-            elevation = 1.dp
-        ) {
-            val showBackButton=vm.menuItems.contains(currentRoot)
-            if (showBackButton)
-                IconButton(onClick = {}) {
-                    Icon(imageVector = Icons.Outlined.ArrowBack, contentDescription = "")
-                }
-            else
-                IconButton(onClick = {}) {
-                    Icon(imageVector = Icons.Outlined.Menu, contentDescription = "")
-                }
+    private fun TopBar(visible: Boolean){
+        if (visible)
+            TopAppBar(
+                backgroundColor = MaterialTheme.colors.background,
+                contentColor = MaterialTheme.colors.onBackground,
+                elevation = 1.dp
+            ) {
 
-            Text(text = "Blotube",fontSize = 16.sp)
-        }
+                IconButton(onClick = {}) { Icon(imageVector = Icons.Outlined.Menu, contentDescription = "") }
+
+                Text(text = "Blotube",fontSize = 16.sp)
+            }
     }
     
     @Composable
@@ -96,23 +91,32 @@ class MainActivity : ComponentActivity() {
 
 
     @Composable
-    private fun BottomBar(){
+    private fun BottomBar(visible:Boolean){
 
-        BottomNavigation(
-            backgroundColor = MaterialTheme.colors.background,
-            contentColor = MaterialTheme.colors.onBackground
-        ) {
-            vm.menuItems.forEach {
-                BottomNavigationItem(
-                    selected = currentRoot==it.root,
-                    onClick = { navController.navigate(it.root) },
-                    label = { Text(text = getString(it.label),maxLines=1)},
-                    icon = { Icon(imageVector = it.icon, contentDescription = "") },
-                    alwaysShowLabel = false,
-                )
+        if (visible)
+            BottomNavigation(
+                backgroundColor = MaterialTheme.colors.background,
+                contentColor = MaterialTheme.colors.onBackground
+            ) {
+                vm.menuItems.forEach {
+                    BottomNavigationItem(
+                        selected = currentRoot==it.root,
+                        onClick = { navController.navigate(it.root) },
+                        label = { Text(text = getString(it.label),maxLines=1)},
+                        icon = { Icon(imageVector = it.icon, contentDescription = "") },
+                        alwaysShowLabel = false,
+                    )
+                }
             }
-        }
 
+    }
+
+    private fun List<Screen>.containsRoot(root:String):Boolean{
+        for(screen in this){
+            if (screen.root==root)
+                return true
+        }
+        return false
     }
 
 }
