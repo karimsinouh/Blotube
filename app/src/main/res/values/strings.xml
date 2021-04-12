@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Blotube</string>
+    <string name="videos">Videos</string>
+    <string name="playlists">Playlists</string>
+    <string name="blogs">Blogs</string>
+    <string name="search">Search</string>
 </resources>
