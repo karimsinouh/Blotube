@@ -12,10 +12,11 @@ sealed class Screen(
     val icon:ImageVector,
 ){
 
-    object ScreenHome:Screen("home", R.string.videos,Icons.Outlined.Home)
-    object ScreenVideos:Screen("videos", R.string.playlists,Icons.Outlined.PlayCircle)
+    object ScreenHome:Screen("home", R.string.home,Icons.Outlined.Home)
+    object ScreenVideos:Screen("videos", R.string.videos,Icons.Outlined.PlayArrow)
     object ScreenPlaylists:Screen("playlists", R.string.playlists,Icons.Outlined.PlaylistPlay)
-    object ScreenBlogs:Screen("blogs", R.string.blogs,Icons.Outlined.Pages)
     object ScreenSearch:Screen("search", R.string.search,Icons.Outlined.Search)
+    object ScreenBlogs:Screen("blogs", R.string.blogs,Icons.Outlined.Book)
+
 
 }
