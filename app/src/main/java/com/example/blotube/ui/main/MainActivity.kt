@@ -18,7 +18,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.*
+import com.example.blotube.ui.ShowBlogPost
 import com.example.blotube.ui.blogs.Blogs
 import com.example.blotube.ui.home.Home
 import com.example.blotube.ui.playlists.Playlists
@@ -85,6 +87,17 @@ class MainActivity : ComponentActivity() {
             composable(Screen.ScreenSearch.root){ Search() }
             composable(Screen.ScreenPlaylists.root){ Playlists() }
             composable(Screen.ScreenBlogs.root){ Blogs(vm,navController) }
+
+            composable(
+                "showBlogPost/{postId}",
+                arguments = listOf(navArgument("postId"){ type=NavType.StringType })
+            ){
+                ShowBlogPost(
+                    vm,
+                    navController,
+                    navBackStackEntry.value?.arguments?.getString("postId")!!
+                )
+            }
         }
 
 

@@ -37,7 +37,8 @@ fun BlogItem(blog:Blog, onClick: ()->Unit){
                     .height(200.dp)
                     .clip(RoundedShape),
                 contentScale = ContentScale.Crop,
-                loading = { ImagePlaceholder() }
+                loading = { ImagePlaceholder() },
+                fadeIn = true,
             )
 
             Text(
@@ -55,33 +56,36 @@ fun BlogItem(blog:Blog, onClick: ()->Unit){
 }
 
 @Composable
-fun BlogItemSmall(blog:Blog){
-    Row(Modifier.padding(8.dp)) {
+fun BlogItemSmall(blog:Blog,onClick: () -> Unit){
+    Box(Modifier.clickable { onClick() }) {
+        Row(Modifier.padding(8.dp)) {
 
-        val defPicture="https://www.androidcentral.com/sites/androidcentral.com/files/topic_images/2014/materialdesign_principles_metaphor.png"
+            val defPicture="https://www.androidcentral.com/sites/androidcentral.com/files/topic_images/2014/materialdesign_principles_metaphor.png"
 
-        CoilImage(
-            data=blog.images!![0].url ?: defPicture,
-            contentDescription="",
-            modifier = Modifier
-                .width(90.dp)
-                .height(120.dp)
-                .clip(RoundedShape),
-            contentScale = ContentScale.Crop,
-            loading = { ImagePlaceholder() }
-        )
-
-        Spacer(Modifier.width(8.dp))
-        Column {
-            Text(
-                text = blog.title!!,
-                fontSize = 18.sp,
-                maxLines = 2
+            CoilImage(
+                data=blog.images!![0].url ?: defPicture,
+                contentDescription="",
+                modifier = Modifier
+                    .width(120.dp)
+                    .height(80.dp)
+                    .clip(RoundedShape),
+                contentScale = ContentScale.Crop,
+                loading = { ImagePlaceholder() },
+                fadeIn = true,
             )
-            Spacer(Modifier.height(4.dp))
-            Text(blog.author.displayName)
-        }
 
+            Spacer(Modifier.width(8.dp))
+            Column {
+                Text(
+                    text = blog.title!!,
+                    fontSize = 18.sp,
+                    maxLines = 2
+                )
+                Spacer(Modifier.height(4.dp))
+                Text(blog.author.displayName)
+            }
+
+        }
     }
 }
 
@@ -95,7 +99,9 @@ fun Author(author:Author){
         CoilImage(
             data="https:"+author.image?.url ?: defPicture,
             contentDescription="",
-            modifier = Modifier.size(30.dp).clip(CircleShape),
+            modifier = Modifier
+                .size(30.dp)
+                .clip(CircleShape),
             contentScale = ContentScale.Crop,
             loading = { ImagePlaceholder() },
             fadeIn = true
