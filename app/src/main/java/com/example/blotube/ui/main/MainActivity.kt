@@ -24,7 +24,9 @@ import com.example.blotube.ui.home.Home
 import com.example.blotube.ui.playlists.Playlists
 import com.example.blotube.ui.search.Search
 import com.example.blotube.ui.videos.Videos
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
 

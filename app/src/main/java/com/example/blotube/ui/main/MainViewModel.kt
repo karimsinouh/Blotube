@@ -1,16 +1,19 @@
 package com.example.blotube.ui.main
 
-import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.blotube.api.blogger.BlogsRepository
 import com.example.blotube.data.blogger.Blog
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MainViewModel :ViewModel(){
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    private val blogsRepo: BlogsRepository
+) :ViewModel(){
 
     val menuItems:List<Screen> = listOf(
         Screen.ScreenHome,
@@ -19,8 +22,6 @@ class MainViewModel :ViewModel(){
         Screen.ScreenPlaylists,
         Screen.ScreenBlogs
     )
-
-    val blogsRepo=BlogsRepository()
 
     init {
         loadBlogs()

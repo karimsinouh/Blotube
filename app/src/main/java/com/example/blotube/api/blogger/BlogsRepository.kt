@@ -6,11 +6,15 @@ import com.example.blotube.data.Result
 import com.example.blotube.data.blogger.Blog
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Inject
+import javax.inject.Named
+import javax.inject.Singleton
 
-class BlogsRepository {
 
-    private val retrofit=Retrofit.Builder().baseUrl(ApiConstants.BLOGGER_BASE_URL).addConverterFactory(GsonConverterFactory.create()).build()
-    private val api=retrofit.create(BlogsEndPoint::class.java)
+@Singleton
+class BlogsRepository @Inject constructor (
+    private val api:BlogsEndPoint
+) {
 
     suspend fun getBlogs(pageToken:String?="",listener:(Result<ResponsePage<List<Blog>>>)->Unit){
         api.getBlogs().let {
