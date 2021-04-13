@@ -16,8 +16,14 @@ class BlogsRepository @Inject constructor (
     private val api:BlogsEndPoint
 ) {
 
-    suspend fun getBlogs(pageToken:String?="",listener:(Result<ResponsePage<List<Blog>>>)->Unit){
-        api.getBlogs().let {
+    suspend fun getPosts(pageToken:String?="", listener:(Result<ResponsePage<List<Blog>>>)->Unit){
+        api.getPosts().let {
+            listener(Result(it.isSuccessful,it.body(),it.message()))
+        }
+    }
+
+    suspend fun getPost(blogId:String,listener:(Result<ResponsePage<Blog>>)->Unit){
+        api.getPost(blogId).let {
             listener(Result(it.isSuccessful,it.body(),it.message()))
         }
     }

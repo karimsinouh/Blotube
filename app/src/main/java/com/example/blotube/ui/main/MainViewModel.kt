@@ -45,7 +45,7 @@ class MainViewModel @Inject constructor(
     val message= mutableStateOf<ScreenMessage?>(null)
 
     fun loadBlogs()=viewModelScope.launch{
-        blogsRepo.getBlogs {
+        blogsRepo.getPosts {
 
             blogsLoading.value=false
 
