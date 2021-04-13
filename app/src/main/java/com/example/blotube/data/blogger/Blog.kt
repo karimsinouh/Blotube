@@ -9,5 +9,5 @@ data class Blog(
     val url:String?="",
     val author: Author,
     val blog:BlogId,
-    val images:List<BlogImage>
+    val images:List<BlogImage>?=null
 )

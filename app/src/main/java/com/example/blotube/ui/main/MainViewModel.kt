@@ -1,9 +1,14 @@
 package com.example.blotube.ui.main
 
 import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.blotube.api.blogger.BlogsRepository
+import com.example.blotube.data.blogger.Blog
+import kotlinx.coroutines.launch
 
 class MainViewModel :ViewModel(){
 
@@ -14,6 +19,8 @@ class MainViewModel :ViewModel(){
         Screen.ScreenPlaylists,
         Screen.ScreenBlogs
     )
+
+    val blogsRepo=BlogsRepository()
 
     init {
         loadBlogs()
@@ -30,10 +37,24 @@ class MainViewModel :ViewModel(){
     val blogsLoading= mutableStateOf(true)
     val searchLoading= mutableStateOf(true)
 
-    val message= mutableListOf<ScreenMessage>()
 
-    fun loadBlogs(){
+    //states lists
+    val blogs= mutableStateListOf<Blog>()
 
+    val message= mutableStateOf<ScreenMessage?>(null)
+
+    fun loadBlogs()=viewModelScope.launch{
+        blogsRepo.getBlogs {
+
+            blogsLoading.value=false
+
+            if(it.isSuccessful){
+                blogsNextPageToken=it.data?.nextPageToken?:""
+                blogs.addAll(it.data?.items?: emptyList())
+            }else{
+                message.value= ScreenMessage("blogs",it.message!!)
+            }
+        }
     }
 
 

@@ -45,11 +45,13 @@ class MainActivity : ComponentActivity() {
 
             val shouldShowMenu=vm.menuItems.containsRoot(currentRoot)
 
-            Scaffold(
-                bottomBar = { BottomBar(shouldShowMenu) },
-                topBar = {TopBar(shouldShowMenu)}
-            ) {
-                Content()
+            MaterialTheme{
+                Scaffold(
+                    bottomBar = { BottomBar(shouldShowMenu) },
+                    topBar = {TopBar(shouldShowMenu)}
+                ) {
+                    Content()
+                }
             }
 
         }
@@ -74,11 +76,7 @@ class MainActivity : ComponentActivity() {
     
     @Composable
     @Preview
-    private fun Content()=Column(
-        Modifier
-            .fillMaxSize()
-            .padding(12.dp)) {
-
+    private fun Content()=
         NavHost(navController = navController,startDestination = Screen.ScreenHome.root){
             composable(Screen.ScreenHome.root){ Home() }
             composable(Screen.ScreenVideos.root){ Videos() }
@@ -87,7 +85,7 @@ class MainActivity : ComponentActivity() {
             composable(Screen.ScreenBlogs.root){ Blogs(vm,navController) }
         }
 
-    }
+
 
 
     @Composable
