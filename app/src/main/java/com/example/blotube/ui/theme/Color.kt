@@ -8,3 +8,5 @@ val Primary500 = Color(0xFFFF9800)
 val Primary700 = Color(0xFFF57C00)
 
 val Teal200 = Color(0xFFFF9800)
+
+val PlaceholderColor=Color(0xC4858585)

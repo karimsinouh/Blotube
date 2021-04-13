@@ -1,55 +1,57 @@
 package com.example.blotube.ui.blogs
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.blotube.R
+import com.example.blotube.data.blogger.Author
 import com.example.blotube.data.blogger.Blog
-import com.example.blotube.ui.theme.CenterProgressBar
-import com.example.blotube.ui.theme.Picture
+import com.example.blotube.ui.theme.ImagePlaceholder
 import com.example.blotube.ui.theme.RoundedShape
+import com.google.accompanist.coil.CoilImage
 
 @Composable
 fun BlogItem(blog:Blog, onClick: ()->Unit){
-    Column(
+
+    Box(
         Modifier
             .fillMaxWidth()
-            .padding(12.dp)
-            .clickable{onClick()}
-    ) {
+            .clickable { onClick() }){
 
-        val defPicture="https://www.androidcentral.com/sites/androidcentral.com/files/topic_images/2014/materialdesign_principles_metaphor.png"
+        Column(Modifier.padding(12.dp),verticalArrangement = Arrangement.spacedBy(4.dp)) {
 
-        Picture(
-            if(blog.images!=null) blog.images[0].url else defPicture,
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .clip(RoundedShape)
-                .fillMaxWidth()
-                .height(200.dp),
-            onLoading = { CenterProgressBar()}
-        )
-        Spacer(Modifier.height(4.dp))
-        Text(
-            text = blog.title!!,
-            fontSize = 20.sp,
-            maxLines = 2
-        )
+            val defPicture="https://www.androidcentral.com/sites/androidcentral.com/files/topic_images/2014/materialdesign_principles_metaphor.png"
 
-        Text("by "+blog.author.displayName)
+            CoilImage(
+                data=blog.images!![0].url ?: defPicture,
+                contentDescription="",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(200.dp)
+                    .clip(RoundedShape),
+                contentScale = ContentScale.Crop,
+                loading = { ImagePlaceholder() }
+            )
+
+            Text(
+                text = blog.title!!,
+                fontSize = 20.sp,
+                maxLines = 2
+            )
+
+            Author(author = blog.author)
 
 
+        }
     }
+
 }
 
 @Composable
@@ -58,14 +60,15 @@ fun BlogItemSmall(blog:Blog){
 
         val defPicture="https://www.androidcentral.com/sites/androidcentral.com/files/topic_images/2014/materialdesign_principles_metaphor.png"
 
-        Picture(
-            if(blog.images!=null) blog.images[0].url else defPicture,
-            contentScale = ContentScale.Crop,
+        CoilImage(
+            data=blog.images!![0].url ?: defPicture,
+            contentDescription="",
             modifier = Modifier
-                .clip(RoundedShape)
-                .width(150.dp)
-                .height(90.dp),
-            onLoading = { CenterProgressBar()}
+                .width(90.dp)
+                .height(120.dp)
+                .clip(RoundedShape),
+            contentScale = ContentScale.Crop,
+            loading = { ImagePlaceholder() }
         )
 
         Spacer(Modifier.width(8.dp))
@@ -79,5 +82,29 @@ fun BlogItemSmall(blog:Blog){
             Text(blog.author.displayName)
         }
 
+    }
+}
+
+@Composable
+fun Author(author:Author){
+
+    val defPicture="https://www.androidcentral.com/sites/androidcentral.com/files/topic_images/2014/materialdesign_principles_metaphor.png"
+
+
+    Row(horizontalArrangement = Arrangement.spacedBy(8.dp),verticalAlignment = Alignment.CenterVertically) {
+        CoilImage(
+            data="https:"+author.image?.url ?: defPicture,
+            contentDescription="",
+            modifier = Modifier.size(30.dp).clip(CircleShape),
+            contentScale = ContentScale.Crop,
+            loading = { ImagePlaceholder() },
+            fadeIn = true
+            )
+
+
+        Column {
+            Text(author.displayName)
+            Text(text = "2 days ago",fontSize = 10.sp)
+        }
     }
 }
