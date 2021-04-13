@@ -37,8 +37,7 @@ fun BlogItem(blog:Blog, onClick: ()->Unit){
                     .height(200.dp)
                     .clip(RoundedShape),
                 contentScale = ContentScale.Crop,
-                loading = { ImagePlaceholder() },
-                fadeIn = true,
+                loading = { ImagePlaceholder() }
             )
 
             Text(
@@ -70,8 +69,7 @@ fun BlogItemSmall(blog:Blog,onClick: () -> Unit){
                     .height(80.dp)
                     .clip(RoundedShape),
                 contentScale = ContentScale.Crop,
-                loading = { ImagePlaceholder() },
-                fadeIn = true,
+                loading = { ImagePlaceholder() }
             )
 
             Spacer(Modifier.width(8.dp))
@@ -103,8 +101,7 @@ fun Author(author:Author){
                 .size(30.dp)
                 .clip(CircleShape),
             contentScale = ContentScale.Crop,
-            loading = { ImagePlaceholder() },
-            fadeIn = true
+            loading = { ImagePlaceholder() }
             )
 
 

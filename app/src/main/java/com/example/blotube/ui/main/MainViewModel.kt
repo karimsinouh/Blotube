@@ -24,18 +24,18 @@ class MainViewModel @Inject constructor(
     )
 
     init {
-        loadBlogs()
+        loadPosts()
     }
 
     //pages tokens
-    private var blogsNextPageToken=""
+    private var postsNextPageToken=""
     private var videosNextPageToken=""
     private var playlistsNextPageToken=""
 
     //loading states
     val videosLoading= mutableStateOf(true)
     val playlistsLoading= mutableStateOf(true)
-    val blogsLoading= mutableStateOf(true)
+    val postsLoading= mutableStateOf(true)
     val searchLoading= mutableStateOf(true)
 
 
@@ -44,17 +44,24 @@ class MainViewModel @Inject constructor(
 
     val message= mutableStateOf<ScreenMessage?>(null)
 
-    fun loadBlogs()=viewModelScope.launch{
+    fun loadPosts()=viewModelScope.launch{
         blogsRepo.getPosts {
 
-            blogsLoading.value=false
+            postsLoading.value=false
 
             if(it.isSuccessful){
-                blogsNextPageToken=it.data?.nextPageToken?:""
+                postsNextPageToken=it.data?.nextPageToken?:""
                 blogs.addAll(it.data?.items?: emptyList())
             }else{
                 message.value= ScreenMessage("blogs",it.message!!)
             }
+        }
+    }
+
+    fun getPost(id:String,listener:(Blog)->Unit)=viewModelScope.launch{
+        blogsRepo.getPost(id){
+            if(it.isSuccessful)
+                listener(it.data!!)
         }
     }
 

@@ -15,13 +15,13 @@ fun Blogs(
     nav:NavController
 ){
 
-    if (vm.blogsLoading.value){
+    if (vm.postsLoading.value){
         CenterProgressBar()
     }else{
         LazyColumn {
             items(vm.blogs){item->
                 BlogItem(item){
-                    nav.navigate("showBlogPost/"+item.blog.id)
+                    nav.navigate("showBlogPost/"+item.id)
                 }
                 Divider()
                 BlogItemSmall(item){}

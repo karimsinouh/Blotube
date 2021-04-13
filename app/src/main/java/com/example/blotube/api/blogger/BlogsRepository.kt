@@ -22,7 +22,7 @@ class BlogsRepository @Inject constructor (
         }
     }
 
-    suspend fun getPost(blogId:String,listener:(Result<ResponsePage<Blog>>)->Unit){
+    suspend fun getPost(blogId:String,listener:(Result<Blog>)->Unit){
         api.getPost(blogId).let {
             listener(Result(it.isSuccessful,it.body(),it.message()))
         }

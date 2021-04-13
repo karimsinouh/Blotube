@@ -1,6 +1,7 @@
 package com.example.blotube.data.blogger
 
 data class Blog(
+    val id:String?="",
     val kind:String?="",
     val title:String?="",
     val content:String?="",
