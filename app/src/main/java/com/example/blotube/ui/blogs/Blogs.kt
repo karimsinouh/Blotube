@@ -23,8 +23,7 @@ fun Blogs(
                 BlogItem(item){
                     nav.navigate("showBlogPost/"+item.id)
                 }
-                Divider()
-                BlogItemSmall(item){}
+
                 Divider()
             }
         }
