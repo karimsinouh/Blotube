@@ -5,14 +5,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.blotube.api.blogger.BlogsRepository
+import com.example.blotube.api.youtube.YoutubeRepository
 import com.example.blotube.data.blogger.Blog
+import com.example.blotube.data.youtube.items.VideoItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val blogsRepo: BlogsRepository
+    private val blogger: BlogsRepository,
+    private val youtube:YoutubeRepository
 ) :ViewModel(){
 
     val menuItems:List<Screen> = listOf(
@@ -25,6 +28,7 @@ class MainViewModel @Inject constructor(
 
     init {
         loadPosts()
+        loadVideos()
     }
 
     //pages tokens
@@ -41,11 +45,14 @@ class MainViewModel @Inject constructor(
 
     //states lists
     val blogs= mutableStateListOf<Blog>()
+    val videos= mutableStateListOf<VideoItem>()
+
+
 
     val message= mutableStateOf<ScreenMessage?>(null)
 
     fun loadPosts()=viewModelScope.launch{
-        blogsRepo.getPosts {
+        blogger.getPosts {
 
             postsLoading.value=false
 
@@ -58,12 +65,15 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun getPost(id:String,listener:(Blog)->Unit)=viewModelScope.launch{
-        blogsRepo.getPost(id){
-            if(it.isSuccessful)
-                listener(it.data!!)
+    fun loadVideos()=viewModelScope.launch {
+        youtube.getVideos(videosNextPageToken){
+            videosLoading.value=false
+            if(it.isSuccessful){
+                videos.addAll(it.data?.items?: emptyList())
+            }else{
+                message.value=ScreenMessage("videos",it.message!!)
+            }
         }
     }
-
 
 }

@@ -10,6 +10,7 @@ object ApiConstants {
 
 
     //youtube
-    const val YOUTUBE_BASE_URL=""
-    const val YOUTUBE_CHANNEL_ID=""
+    const val YOUTUBE_BASE_URL="https://www.googleapis.com/youtube/v3/"
+    const val CHANNEL_ID="UC_Fh8kvtkVPkeihBs42jGcA"
+    const val PLAYLIST_ID="UU_Fh8kvtkVPkeihBs42jGcA"
 }

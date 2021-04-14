@@ -2,6 +2,7 @@ package com.example.blotube.di
 
 import com.example.blotube.api.ApiConstants
 import com.example.blotube.api.blogger.BlogsEndPoint
+import com.example.blotube.api.youtube.YoutubeEndPoint
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,10 +22,13 @@ object SingletonsModule {
     fun retrofit()=Retrofit.Builder().addConverterFactory(GsonConverterFactory.create())
 
 
+    @Singleton
     @Provides
     fun blogsApi(retrofit:Retrofit.Builder)=retrofit.baseUrl(ApiConstants.BLOGGER_BASE_URL).build().create(BlogsEndPoint::class.java)
 
-    //@Provides
-    //fun youtubeApi(retrofit:Retrofit.Builder)=retrofit.baseUrl(ApiConstants.YOUTUBE_BASE_URL).build().create(YoutubeEndPoint::class.java)
+
+    @Singleton
+    @Provides
+    fun youtubeApi(retrofit:Retrofit.Builder)=retrofit.baseUrl(ApiConstants.YOUTUBE_BASE_URL).build().create(YoutubeEndPoint::class.java)
 
 }

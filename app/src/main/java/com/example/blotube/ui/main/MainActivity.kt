@@ -1,6 +1,5 @@
 package com.example.blotube.ui.main
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -16,12 +15,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
-import com.example.blotube.data.blogger.Blog
 import com.example.blotube.ui.blogs.Blogs
 import com.example.blotube.ui.home.Home
 import com.example.blotube.ui.playlists.Playlists
 import com.example.blotube.ui.search.Search
-import com.example.blotube.ui.showPost.ShowPostActivity
 import com.example.blotube.ui.theme.BlotubeTheme
 import com.example.blotube.ui.videos.Videos
 import dagger.hilt.android.AndroidEntryPoint
@@ -81,7 +78,7 @@ class MainActivity : ComponentActivity() {
     private fun Content()=
         NavHost(navController = navController,startDestination = Screen.ScreenHome.root){
             composable(Screen.ScreenHome.root){ Home() }
-            composable(Screen.ScreenVideos.root){ Videos() }
+            composable(Screen.ScreenVideos.root){ Videos(vm) }
             composable(Screen.ScreenSearch.root){ Search() }
             composable(Screen.ScreenPlaylists.root){ Playlists() }
             composable(Screen.ScreenBlogs.root){ Blogs(vm,this@MainActivity) }
