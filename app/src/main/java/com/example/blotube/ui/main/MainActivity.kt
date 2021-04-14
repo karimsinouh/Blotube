@@ -1,30 +1,28 @@
 package com.example.blotube.ui.main
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.*
-import com.example.blotube.ui.ShowBlogPost
+import com.example.blotube.data.blogger.Blog
 import com.example.blotube.ui.blogs.Blogs
 import com.example.blotube.ui.home.Home
 import com.example.blotube.ui.playlists.Playlists
 import com.example.blotube.ui.search.Search
+import com.example.blotube.ui.showPost.ShowPostActivity
+import com.example.blotube.ui.theme.BlotubeTheme
 import com.example.blotube.ui.videos.Videos
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -49,7 +47,7 @@ class MainActivity : ComponentActivity() {
 
             val shouldShowMenu=vm.menuItems.containsRoot(currentRoot)
 
-            MaterialTheme{
+            BlotubeTheme{
                 Scaffold(
                     bottomBar = { BottomBar(shouldShowMenu) },
                     topBar = {TopBar(shouldShowMenu)}
@@ -86,18 +84,7 @@ class MainActivity : ComponentActivity() {
             composable(Screen.ScreenVideos.root){ Videos() }
             composable(Screen.ScreenSearch.root){ Search() }
             composable(Screen.ScreenPlaylists.root){ Playlists() }
-            composable(Screen.ScreenBlogs.root){ Blogs(vm,navController) }
-
-            composable(
-                "showBlogPost/{postId}",
-                arguments = listOf(navArgument("postId"){ type=NavType.StringType })
-            ){
-                ShowBlogPost(
-                    vm,
-                    navController,
-                    navBackStackEntry.value?.arguments?.getString("postId")!!
-                )
-            }
+            composable(Screen.ScreenBlogs.root){ Blogs(vm,this@MainActivity) }
         }
 
 
