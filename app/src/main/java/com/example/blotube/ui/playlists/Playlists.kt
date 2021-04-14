@@ -33,7 +33,7 @@ fun Playlists(vm:MainViewModel){
 }
 
 @Composable
-private fun PlaylistItem(playlist: PlaylistItem, onClick: () -> Unit){
+fun PlaylistItem(playlist: PlaylistItem, onClick: () -> Unit){
     Box(Modifier.clickable { onClick() }) {
         Row(Modifier.padding(8.dp)) {
 

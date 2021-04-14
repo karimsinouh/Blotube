@@ -80,7 +80,7 @@ class MainActivity : ComponentActivity() {
     @Preview
     private fun Content()=
         NavHost(navController = navController,startDestination = Screen.ScreenHome.root){
-            composable(Screen.ScreenHome.root){ Home() }
+            composable(Screen.ScreenHome.root){ Home(vm) }
             composable(Screen.ScreenVideos.root){ Videos(vm) }
             composable(Screen.ScreenSearch.root){ Search() }
             composable(Screen.ScreenPlaylists.root){ Playlists(vm) }
