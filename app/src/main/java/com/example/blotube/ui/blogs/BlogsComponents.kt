@@ -80,7 +80,7 @@ fun BlogItemSmall(blog:Blog,onClick: () -> Unit){
                     maxLines = 2
                 )
                 Spacer(Modifier.height(4.dp))
-                Text(blog.author?.displayName!!)
+                Text(blog.author.displayName)
             }
 
         }

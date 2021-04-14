@@ -2,15 +2,14 @@ package com.example.blotube.ui.showPost
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -18,14 +17,17 @@ import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.lifecycle.lifecycleScope
 import com.example.blotube.ui.theme.BlotubeTheme
 import com.example.blotube.ui.theme.CenterProgressBar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.xml.transform.OutputKeys
 
 
@@ -41,11 +43,11 @@ class ShowPostActivity : ComponentActivity() {
                 
                 Column {
 
-
                     if(vm.isLoading.value){
                         CenterProgressBar()
                     }else{
                         TopBar()
+                        Divider()
                         HtmlPostView(data = vm.post.value?.content!!)
                     }
 
@@ -64,14 +66,14 @@ class ShowPostActivity : ComponentActivity() {
         TopAppBar(
             backgroundColor = MaterialTheme.colors.background,
             contentColor = MaterialTheme.colors.onBackground,
-            elevation = 1.dp
+            elevation = 0.dp
         ) {
             IconButton(onClick = {
                 finish()
             }) { Icon(imageVector = Icons.Outlined.ArrowBack, contentDescription = "") }
             
             val title=vm.post.value?.title?.let {
-                if(it.length>20)
+                if(it.length>25)
                     it.substring(0,25)+"..."
                 else
                     it
@@ -83,9 +85,9 @@ class ShowPostActivity : ComponentActivity() {
                 .fillMaxWidth()
                 .weight(0.8f))
 
-            val checked= mutableStateOf(false)
+            val checked= remember{mutableStateOf(false)}
 
-            IconToggleButton(checked = false, onCheckedChange = {
+            IconToggleButton(checked = checked.value, onCheckedChange = {
                 checked.value = !checked.value
             }) {
                 if (checked.value)
@@ -101,18 +103,23 @@ class ShowPostActivity : ComponentActivity() {
     @Composable
     fun HtmlPostView(data:String){
 
-        return AndroidView (modifier = Modifier.fillMaxSize(
+        return AndroidView (
+            modifier = Modifier.fillMaxSize(),
+            factory =
+            {context ->
+                WebView(context).apply {
 
-        ),factory = {context ->
-            WebView(context).apply {
+                    settings.javaScriptEnabled=true
 
-                settings.javaScriptEnabled=true
-                settings.domStorageEnabled=true
+                    settings.domStorageEnabled=true
+                    settings.loadWithOverviewMode=true
 
-                webViewClient=object : WebViewClient(){}
-                webChromeClient=object : WebChromeClient(){}
+                    webViewClient=object : WebViewClient(){}
+                    webChromeClient=object : WebChromeClient(){}
 
-                loadDataWithBaseURL(null,data,"text/html", OutputKeys.ENCODING,null)
+                    lifecycleScope.launch {
+                        loadDataWithBaseURL(null,data,"text/html", "UTF-8",null)
+                    }
 
             }
         })
