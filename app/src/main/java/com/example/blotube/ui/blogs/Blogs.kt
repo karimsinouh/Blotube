@@ -17,8 +17,9 @@ import com.example.blotube.ui.theme.CenterProgressBar
 @Composable
 fun Blogs(
     vm:MainViewModel,
-    c: Context,
 ){
+
+    val c = LocalContext.current
 
     if (vm.postsLoading.value){
         CenterProgressBar()

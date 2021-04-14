@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.blotube.api.blogger.BlogsRepository
 import com.example.blotube.api.youtube.YoutubeRepository
 import com.example.blotube.data.blogger.Blog
+import com.example.blotube.data.youtube.items.PlaylistItem
 import com.example.blotube.data.youtube.items.VideoItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -29,6 +30,7 @@ class MainViewModel @Inject constructor(
     init {
         loadPosts()
         loadVideos()
+        loadPlaylists()
     }
 
     //pages tokens
@@ -46,6 +48,7 @@ class MainViewModel @Inject constructor(
     //states lists
     val blogs= mutableStateListOf<Blog>()
     val videos= mutableStateListOf<VideoItem>()
+    val playlists= mutableStateListOf<PlaylistItem>()
 
 
 
@@ -76,4 +79,17 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun loadPlaylists()=viewModelScope.launch {
+        youtube.getPlaylists(playlistsNextPageToken){
+            playlistsLoading.value=false
+            if(it.isSuccessful){
+
+                playlists.addAll(it.data?.items ?: emptyList())
+                playlistsNextPageToken=it.data?.nextPageToken?:""
+
+            }else{
+                message.value= ScreenMessage("playlists",it.message!!)
+            }
+        }
+    }
 }

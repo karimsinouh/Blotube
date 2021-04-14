@@ -83,8 +83,8 @@ class MainActivity : ComponentActivity() {
             composable(Screen.ScreenHome.root){ Home() }
             composable(Screen.ScreenVideos.root){ Videos(vm) }
             composable(Screen.ScreenSearch.root){ Search() }
-            composable(Screen.ScreenPlaylists.root){ Playlists() }
-            composable(Screen.ScreenBlogs.root){ Blogs(vm,this@MainActivity) }
+            composable(Screen.ScreenPlaylists.root){ Playlists(vm) }
+            composable(Screen.ScreenBlogs.root){ Blogs(vm) }
         }
 
 
