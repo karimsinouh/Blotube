@@ -46,7 +46,7 @@ fun BlogItem(blog:Blog, onClick: ()->Unit){
                 maxLines = 2
             )
 
-            Author(author = blog.author!!)
+            Author(author = blog.author)
 
 
         }

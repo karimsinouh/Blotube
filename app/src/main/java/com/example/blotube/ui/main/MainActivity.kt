@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Menu
@@ -33,6 +34,7 @@ class MainActivity : ComponentActivity() {
 
     private val vm by viewModels<MainViewModel>()
 
+    @ExperimentalFoundationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -73,6 +75,7 @@ class MainActivity : ComponentActivity() {
             }
     }
     
+    @ExperimentalFoundationApi
     @Composable
     @Preview
     private fun Content()=
