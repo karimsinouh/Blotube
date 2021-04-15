@@ -67,12 +67,15 @@ dependencies {
     implementation "com.google.dagger:hilt-android:2.31.2-alpha"
     kapt "com.google.dagger:hilt-compiler:2.31.2-alpha"
 
-
     //retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.7.2'
     implementation 'com.squareup.retrofit2:converter-gson:2.7.2'
 
     //image loading library
     implementation 'com.google.accompanist:accompanist-coil:0.7.1'
+
+    //youtube player
+    implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5'
+
 
 }

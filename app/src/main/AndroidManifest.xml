@@ -14,9 +14,12 @@
         android:theme="@style/Theme.Blotube">
         <activity
             android:name=".ui.showPost.ShowPostActivity"
-            android:exported="true"
-            android:label="@string/title_activity_show_post"
-            android:theme="@style/Theme.Blotube.NoActionBar" />
+            android:label="@string/title_activity_show_post" />
+
+        <activity
+            android:name=".ui.videoInfo.VideoInfoActivity"
+            android:label="@string/title_activity_video_info" />
+
         <activity
             android:name=".ui.main.MainActivity"
             android:exported="true"
