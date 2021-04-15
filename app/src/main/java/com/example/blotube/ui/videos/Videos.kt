@@ -36,7 +36,7 @@ fun Videos(vm:MainViewModel){
 }
 
 
-private fun showVideoInfo(c:Context,videoId:String){
+fun showVideoInfo(c:Context,videoId:String){
     val intent=Intent(c,VideoInfoActivity::class.java)
     intent.putExtra("video_id",videoId)
     c.startActivity(intent)

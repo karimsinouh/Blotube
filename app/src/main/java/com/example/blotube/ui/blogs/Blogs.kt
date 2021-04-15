@@ -36,7 +36,7 @@ fun Blogs(
 
 }
 
-private fun showPost(c:Context,post:Blog){
+fun showPost(c:Context,post:Blog){
     val i= Intent(c, ShowPostActivity::class.java)
     i.putExtra("post_id",post.id)
     c.startActivity(i)
