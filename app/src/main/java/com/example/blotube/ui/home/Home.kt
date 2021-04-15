@@ -20,6 +20,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.util.lerp
 import androidx.navigation.NavController
 import androidx.navigation.compose.navigate
 import com.example.blotube.R
@@ -32,7 +33,9 @@ import com.example.blotube.ui.theme.RoundedShape
 import com.google.accompanist.coil.CoilImage
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.calculateCurrentOffsetForPage
 import com.google.accompanist.pager.rememberPagerState
+import kotlin.math.absoluteValue
 
 @ExperimentalPagerApi
 @ExperimentalFoundationApi
@@ -60,11 +63,35 @@ fun Home(
                 rememberPagerState(vm.videos.size)
 
             if(pagerState.pageCount >0)
-                HorizontalPager(state = pagerState,itemSpacing = 12.dp,modifier = Modifier.padding(8.dp)) {page ->
+                HorizontalPager(state = pagerState,modifier = Modifier.padding(8.dp).fillMaxWidth()) {page ->
                     val thumbs=vm.videos[page].snippet.thumbnails
-                    PagerVideoItem(thumbnails = thumbs){
 
+                    val modifier=Modifier.fillMaxWidth(0.8f).height(150.dp).clip(RoundedShape).clickable {
+
+                    }.graphicsLayer {
+                        // Calculate the absolute offset for the current page from the
+                        // scroll position. We use the absolute value which allows us to mirror
+                        // any effects for both directions
+                        val pageOffset = calculateCurrentOffsetForPage(page).absoluteValue
+
+                        // We animate the scaleX + scaleY, between 85% and 100%
+                        lerp(
+                            start = 0.85f,
+                            stop = 1f,
+                            fraction = 1f - pageOffset.coerceIn(0f, 1f)
+                        ).also { scale ->
+                            scaleX = scale
+                            scaleY = scale
+                        }
+
+                        // We animate the alpha, between 50% and 100%
+                        alpha = lerp(
+                            start = 0.5f,
+                            stop = 1f,
+                            fraction = 1f - pageOffset.coerceIn(0f, 1f)
+                        )
                     }
+                    PagerVideoItem(thumbnails = thumbs,modifier=modifier)
                 }
         }
 
@@ -125,11 +152,7 @@ fun Header(title:String,actionText:String,onAction:()->Unit){
 }
 
 @Composable
-fun PagerVideoItem(thumbnails: Thumbnails,onClick:()->Unit){
-
-    val modifier=Modifier.fillMaxWidth().height(200.dp).clip(RoundedShape).clickable {
-        onClick()
-    }
+fun PagerVideoItem(thumbnails: Thumbnails,modifier: Modifier){
 
         Box(modifier = modifier,contentAlignment = Alignment.Center) {
             CoilImage(
@@ -141,7 +164,8 @@ fun PagerVideoItem(thumbnails: Thumbnails,onClick:()->Unit){
 
             Image(
                 painter = painterResource(id = R.drawable.play_video),
-                contentDescription = ""
+                contentDescription = "",
+                modifier=Modifier.size(50.dp)
             )
         }
 
