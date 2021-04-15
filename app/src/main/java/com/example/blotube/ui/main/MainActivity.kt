@@ -22,8 +22,10 @@ import com.example.blotube.ui.playlists.Playlists
 import com.example.blotube.ui.search.Search
 import com.example.blotube.ui.theme.BlotubeTheme
 import com.example.blotube.ui.videos.Videos
+import com.google.accompanist.pager.ExperimentalPagerApi
 import dagger.hilt.android.AndroidEntryPoint
 
+@ExperimentalPagerApi
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 

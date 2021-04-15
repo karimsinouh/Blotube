@@ -77,5 +77,8 @@ dependencies {
     //youtube player
     implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5'
 
+    //pager
+    implementation "com.google.accompanist:accompanist-pager:0.7.1"
+
 
 }
