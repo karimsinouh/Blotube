@@ -3,6 +3,7 @@ package com.example.blotube.data.youtube.items
 import com.example.blotube.data.youtube.ContentDetails
 import com.example.blotube.data.youtube.Snippet
 import com.example.blotube.data.youtube.Statistics
+import java.io.Serializable
 
 data class VideoItem (
     val kind:String,
@@ -11,4 +12,4 @@ data class VideoItem (
     val id:String?=null,
     val contentDetails: ContentDetails?=null,
     val statistics: Statistics?=null
-)
+):Serializable

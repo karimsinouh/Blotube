@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
@@ -52,7 +53,7 @@ fun Home(
 
         //videos
         stickyHeader {
-            Header(title = "Videos", actionText ="See All" ) {
+            Header(title = stringResource(R.string.videos), actionText = stringResource(R.string.see_all) ) {
                 nav.navigate(Screen.ScreenVideos.root)
             }
         }
@@ -75,7 +76,7 @@ fun Home(
                         .height(150.dp)
                         .clip(RoundedShape)
                         .clickable {
-                            showVideoInfo(context,vm.videos[currentPage].snippet.resourceId?.videoId!!)
+                            showVideoInfo(context,vm.videos[currentPage])
                         }
                         .graphicsLayer {
                             // Calculate the absolute offset for the current page from the
@@ -108,7 +109,7 @@ fun Home(
 
         //playlists
         stickyHeader {
-            Header(title = "Playlists", actionText ="See All" ) {
+            Header(title = stringResource(R.string.playlists), actionText =stringResource(R.string.see_all) ) {
                 nav.navigate(Screen.ScreenPlaylists.root)
             }
         }
@@ -119,13 +120,11 @@ fun Home(
             }
 
         //blog posts
-
         stickyHeader {
-            Header(title = "Blog Posts", actionText ="See All" ) {
+            Header(title = stringResource(R.string.blogs), actionText =stringResource(R.string.see_all) ) {
                 nav.navigate(Screen.ScreenBlogs.root)
             }
         }
-
 
         val posts=vm.blogs.getFive()
 

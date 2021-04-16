@@ -98,10 +98,3 @@ fun VideoItemSmall(video: VideoItem, onClick: () -> Unit){
         }
     }
 }
-
-@Composable
-fun PagerVideoItem(){
-
-    val page=3
-
-}

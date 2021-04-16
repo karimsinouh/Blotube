@@ -1,10 +1,16 @@
 <resources>
     <string name="app_name">Blotube</string>
+
     <string name="videos">Videos</string>
     <string name="playlists">Playlists</string>
     <string name="blogs">Blogs</string>
     <string name="search">Search</string>
     <string name="home">Home</string>
+    <string name="see_all">See All</string>
+
     <string name="title_activity_show_post">ShowPostActivity</string>
     <string name="title_activity_video_info">Video Info</string>
+    <string name="share">Share</string>
+    <string name="later">Later</string>
+
 </resources>

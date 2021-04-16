@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import com.example.blotube.data.youtube.items.VideoItem
 import com.example.blotube.ui.main.MainViewModel
 import com.example.blotube.ui.theme.CenterProgressBar
 import com.example.blotube.ui.videoInfo.VideoInfoActivity
@@ -25,7 +26,7 @@ fun Videos(vm:MainViewModel){
         LazyColumn {
             items(vm.videos){item->
                 VideoItem(item){
-                    showVideoInfo(c,item.snippet.resourceId?.videoId!!)
+                    showVideoInfo(c,item)
                 }
                 Divider()
             }
@@ -36,8 +37,8 @@ fun Videos(vm:MainViewModel){
 }
 
 
-fun showVideoInfo(c:Context,videoId:String){
+fun showVideoInfo(c:Context,video:VideoItem){
     val intent=Intent(c,VideoInfoActivity::class.java)
-    intent.putExtra("video_id",videoId)
+    intent.putExtra("video",video)
     c.startActivity(intent)
 }
