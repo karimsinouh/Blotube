@@ -11,3 +11,4 @@ val Shapes = Shapes(
 )
 
 val RoundedShape= RoundedCornerShape(8.dp)
+val DrawerShape= RoundedCornerShape(0.dp,8.dp,8.dp,0.dp)
