@@ -76,7 +76,7 @@ fun Home(
                         .height(150.dp)
                         .clip(RoundedShape)
                         .clickable {
-                            showVideoInfo(context,vm.videos[currentPage])
+                            showVideoInfo(context,vm.videos[currentPage].snippet.resourceId?.videoId!!)
                         }
                         .graphicsLayer {
                             // Calculate the absolute offset for the current page from the

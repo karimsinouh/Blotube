@@ -18,6 +18,12 @@ class YoutubeRepository @Inject constructor(
         }
     }
 
+    suspend fun getVideo(id:String,listener: (Result<VideoItem>) -> Unit){
+        api.getVideo(id).apply {
+            listener(Result(isSuccessful, body()?.items?.get(0),message()))
+        }
+    }
+
     suspend fun getPlaylists(pageToken:String,listener: (Result<ResponsePage<PlaylistItem>>) -> Unit){
         api.getPlaylists(pageToken).apply {
             listener(Result(isSuccessful,body(),message()))

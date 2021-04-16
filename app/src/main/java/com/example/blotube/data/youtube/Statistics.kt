@@ -7,4 +7,4 @@ data class Statistics(
     val dislikeCount:Int,
     val likeCount:Int,
     val commentCount:Int,
-):Serializable
+)

@@ -1,5 +1,7 @@
 package com.example.blotube.ui.videos
 
+import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -21,7 +23,7 @@ import com.example.blotube.ui.theme.ImagePlaceholder
 import com.example.blotube.ui.theme.RoundedShape
 import com.google.accompanist.coil.CoilImage
 import com.example.blotube.R
-
+import com.example.blotube.ui.videoInfo.VideoInfoActivity
 
 
 @Composable
@@ -97,4 +99,10 @@ fun VideoItemSmall(video: VideoItem, onClick: () -> Unit){
 
         }
     }
+}
+
+fun showVideoInfo(c: Context, videoId:String){
+    val intent= Intent(c, VideoInfoActivity::class.java)
+    intent.putExtra("video_id",videoId)
+    c.startActivity(intent)
 }

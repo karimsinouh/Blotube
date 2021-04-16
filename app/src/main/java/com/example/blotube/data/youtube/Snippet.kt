@@ -11,4 +11,4 @@ data class Snippet(
     val playlistId:String?=null,
     val position:Int?=null,
     val resourceId: ResourceId?=null
-):Serializable
+)

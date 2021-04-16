@@ -26,7 +26,7 @@ fun Videos(vm:MainViewModel){
         LazyColumn {
             items(vm.videos){item->
                 VideoItem(item){
-                    showVideoInfo(c,item)
+                    showVideoInfo(c,item.snippet.resourceId?.videoId!!)
                 }
                 Divider()
             }
@@ -34,11 +34,4 @@ fun Videos(vm:MainViewModel){
 
     }
 
-}
-
-
-fun showVideoInfo(c:Context,video:VideoItem){
-    val intent=Intent(c,VideoInfoActivity::class.java)
-    intent.putExtra("video",video)
-    c.startActivity(intent)
 }
