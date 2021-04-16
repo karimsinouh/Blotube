@@ -12,5 +12,6 @@
     <string name="title_activity_video_info">Video Info</string>
     <string name="share">Share</string>
     <string name="later">Later</string>
+    <string name="share_video">Share this video</string>
 
 </resources>

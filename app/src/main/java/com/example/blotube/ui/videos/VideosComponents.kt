@@ -2,6 +2,7 @@ package com.example.blotube.ui.videos
 
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -16,6 +17,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.os.bundleOf
 import com.example.blotube.data.blogger.Blog
 import com.example.blotube.data.youtube.items.VideoItem
 import com.example.blotube.ui.blogs.Author
@@ -105,4 +107,13 @@ fun showVideoInfo(c: Context, videoId:String){
     val intent= Intent(c, VideoInfoActivity::class.java)
     intent.putExtra("video_id",videoId)
     c.startActivity(intent)
+}
+
+fun shareVideo(c:Context,videoId:String){
+    val intent=Intent().apply {
+        putExtra(Intent.EXTRA_TEXT, "https://youtube.com/watch?v=$videoId")
+        type="text/plain"
+        action=Intent.ACTION_SEND
+    }
+    c.startActivity(Intent.createChooser(intent,c.getString(R.string.share_video)))
 }

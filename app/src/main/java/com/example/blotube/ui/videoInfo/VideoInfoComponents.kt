@@ -1,6 +1,10 @@
 package com.example.blotube.ui.videoInfo
 
+import android.util.Log
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
@@ -11,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -21,6 +26,8 @@ import com.example.blotube.util.Formatter
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.YouTubePlayerTracker
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+import com.example.blotube.R
+import com.example.blotube.ui.videos.shareVideo
 
 /**
  * this is a custom video player
@@ -47,7 +54,15 @@ fun CustomYoutubePlayer(
 
 @Composable
 fun VideoInfoLayout(video:VideoItem){
-    Column(modifier = Modifier.padding(8.dp)) {
+
+    val scrollState= rememberScrollState()
+    val context= LocalContext.current
+
+    Column(
+        modifier = Modifier
+            .padding(8.dp)
+            .verticalScroll(scrollState),
+        ) {
 
         Text(
             text = video.snippet.title,
@@ -61,34 +76,44 @@ fun VideoInfoLayout(video:VideoItem){
 
             IconText(
                 Formatter.statistics(video.statistics?.viewCount),
-                Modifier.fillMaxWidth().weight(1f),
+                Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
                 Icons.Outlined.PanoramaFishEye,
             )
 
             IconText(
                 Formatter.statistics(video.statistics?.likeCount),
-                Modifier.fillMaxWidth().weight(1f),
+                Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
                 Icons.Outlined.ThumbUp,
             )
 
             IconText(
                 Formatter.statistics(video.statistics?.dislikeCount),
-                Modifier.fillMaxWidth().weight(1f),
+                Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
                 Icons.Outlined.ThumbDown,
             )
 
             IconText(
-                "share",
-                Modifier.fillMaxWidth().weight(1f),
+                stringResource(id = R.string.share),
+                Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
                 Icons.Outlined.Share,
                 true
             ){
-
+                shareVideo(context,video.id!!)
             }
 
             IconText(
-                "later",
-                Modifier.fillMaxWidth().weight(1f),
+                stringResource(id = R.string.later),
+                Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
                 Icons.Outlined.WatchLater,
                 true
             ){
@@ -96,6 +121,8 @@ fun VideoInfoLayout(video:VideoItem){
             }
 
         }
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(text = video.snippet.description)
 
     }
 }
