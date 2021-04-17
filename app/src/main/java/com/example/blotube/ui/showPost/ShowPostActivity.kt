@@ -15,6 +15,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -91,9 +92,9 @@ class ShowPostActivity : ComponentActivity() {
                 checked.value = !checked.value
             }) {
                 if (checked.value)
-                    Icon(imageVector = Icons.Filled.Favorite, contentDescription = "")
+                    Icon(imageVector = Icons.Outlined.Favorite, contentDescription = "")
                 else
-                    Icon(imageVector = Icons.Outlined.Favorite, contentDescription ="" )
+                    Icon(imageVector = Icons.Outlined.FavoriteBorder, contentDescription ="" )
             }
 
         }
