@@ -2,6 +2,7 @@ package com.example.blotube.ui.playlists
 
 import android.content.Context
 import android.content.Intent
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -22,6 +23,7 @@ import com.example.blotube.ui.theme.ImagePlaceholder
 import com.example.blotube.ui.theme.RoundedShape
 import com.google.accompanist.coil.CoilImage
 
+@ExperimentalFoundationApi
 @Composable
 fun Playlists(vm:MainViewModel){
 
@@ -72,7 +74,8 @@ fun PlaylistItem(playlist: PlaylistItem, onClick: () -> Unit){
     }
 }
 
-fun showPlaylist(c:Context,playlist: PlaylistItem){
+@ExperimentalFoundationApi
+fun showPlaylist(c:Context, playlist: PlaylistItem){
     val intent=Intent(c,PlaylistInfoActivity::class.java).also {
         it.putExtra("playlist_id",playlist.id)
         it.putExtra("playlist_thumbnail",playlist.snippet.thumbnails.medium.url)

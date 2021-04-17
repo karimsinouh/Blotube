@@ -13,7 +13,7 @@ import retrofit2.http.Query
 
 interface YoutubeEndPoint {
 
-    @GET("playlistItems?part=snippet&playlistId=$PLAYLIST_ID&maxResults=20&key=$API_KEY")
+    @GET("playlistItems?part=snippet&playlistId=$PLAYLIST_ID&maxResults=5&key=$API_KEY")
     suspend fun getVideos( @Query("pageToken") pageToken:String?="" ): Response<ResponsePage<VideoItem>>
 
     @GET("playlists?part=snippet,contentDetails&channelId=$CHANNEL_ID&maxResults=20&key=$API_KEY")

@@ -72,6 +72,7 @@ class MainViewModel @Inject constructor(
         youtube.getVideos(videosNextPageToken){
             videosLoading.value=false
             if(it.isSuccessful){
+                videosNextPageToken=it.data?.nextPageToken?:""
                 videos.addAll(it.data?.items?: emptyList())
             }else{
                 message.value=ScreenMessage("videos",it.message!!)

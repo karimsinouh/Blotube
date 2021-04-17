@@ -1,37 +1,52 @@
 package com.example.blotube.ui.videos
 
-import android.content.Context
-import android.content.Intent
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Divider
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import com.example.blotube.data.youtube.items.VideoItem
+import androidx.compose.ui.unit.dp
 import com.example.blotube.ui.main.MainViewModel
 import com.example.blotube.ui.theme.CenterProgressBar
-import com.example.blotube.ui.videoInfo.VideoInfoActivity
 
 @ExperimentalFoundationApi
 @Composable
-fun Videos(vm:MainViewModel){
+fun Videos(vm:MainViewModel) {
 
-    val c= LocalContext.current
+    val c = LocalContext.current
 
-    if (vm.videosLoading.value) {
+    if (vm.videosLoading.value && vm.videos.isEmpty()) {
         CenterProgressBar()
-    }else{
+    } else if (!vm.videosLoading.value && vm.videos.isNotEmpty()) {
 
         LazyColumn {
-            items(vm.videos){item->
-                VideoItem(item){
-                    showVideoInfo(c,item.snippet.resourceId?.videoId!!)
+
+            itemsIndexed(vm.videos) { index, item ->
+                VideoItem(item) {
+                    showVideoInfo(c, item.snippet.resourceId?.videoId!!)
                 }
                 Divider()
+
+                if ((index + 1) == vm.videos.size && !vm.videosLoading.value) {
+                    vm.loadVideos()
+                    Log.d("wtf","Loaded more, ${vm.videos.size}")
+                }
+
+            }
+
+            val isLoadingMore = (vm.videos.isNotEmpty() && vm.videosLoading.value)
+            if (isLoadingMore) {
+                item {
+                    CenterProgressBar(false)
+                    Spacer(modifier = Modifier.height(60.dp))
+                }
             }
         }
 
     }
-
 }
