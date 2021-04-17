@@ -16,7 +16,7 @@ interface YoutubeEndPoint {
     @GET("playlistItems?part=snippet&playlistId=$PLAYLIST_ID&maxResults=5&key=$API_KEY")
     suspend fun getVideos( @Query("pageToken") pageToken:String?="" ): Response<ResponsePage<VideoItem>>
 
-    @GET("playlists?part=snippet,contentDetails&channelId=$CHANNEL_ID&maxResults=20&key=$API_KEY")
+    @GET("playlists?part=snippet,contentDetails&channelId=$CHANNEL_ID&maxResults=8&key=$API_KEY")
     suspend fun getPlaylists( @Query("pageToken") pageToken:String?="" ):Response<ResponsePage<PlaylistItem>>
 
     @GET("search?part=snippet&channelId=$CHANNEL_ID&key=$API_KEY&maxResults=5")

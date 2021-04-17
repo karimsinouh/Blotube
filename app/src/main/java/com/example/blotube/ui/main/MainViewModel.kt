@@ -42,15 +42,13 @@ class MainViewModel @Inject constructor(
     val videosLoading= mutableStateOf(true)
     val playlistsLoading= mutableStateOf(true)
     val postsLoading= mutableStateOf(true)
-    val searchLoading= mutableStateOf(true)
+    val searchLoading= mutableStateOf(false)
 
 
     //states lists
     val blogs= mutableStateListOf<Blog>()
     val videos= mutableStateListOf<VideoItem>()
     val playlists= mutableStateListOf<PlaylistItem>()
-
-
 
     val message= mutableStateOf<ScreenMessage?>(null)
 
@@ -69,6 +67,11 @@ class MainViewModel @Inject constructor(
     }
 
     fun loadVideos()=viewModelScope.launch {
+
+        try{
+            videosLoading.value=true
+        }catch (e:NullPointerException){}
+
         youtube.getVideos(videosNextPageToken){
             videosLoading.value=false
             if(it.isSuccessful){
@@ -81,6 +84,11 @@ class MainViewModel @Inject constructor(
     }
 
     fun loadPlaylists()=viewModelScope.launch {
+
+        try{
+            playlistsLoading.value=true
+        }catch (e:NullPointerException){}
+
         youtube.getPlaylists(playlistsNextPageToken){
             playlistsLoading.value=false
             if(it.isSuccessful){

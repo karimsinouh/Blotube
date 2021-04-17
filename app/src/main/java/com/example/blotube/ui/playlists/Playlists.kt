@@ -7,6 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -29,15 +30,29 @@ fun Playlists(vm:MainViewModel){
 
     val context= LocalContext.current
 
-    if (vm.playlistsLoading.value)
+    if (vm.playlistsLoading.value && vm.videos.isEmpty() )
         CenterProgressBar()
     else
         LazyColumn {
-            items(vm.playlists){item->
+            itemsIndexed(vm.playlists){index,item->
                 PlaylistItem(item) {
                     showPlaylist(context,item)
                 }
+
+                if ((index+1)==vm.playlists.size && !vm.playlistsLoading.value  ){
+                    vm.loadPlaylists()
+                }
+
             }
+
+            val isLoadingMore=vm.playlistsLoading.value && vm.playlists.isNotEmpty()
+            if (isLoadingMore){
+                item {
+                    CenterProgressBar(false)
+                    Spacer(modifier = Modifier.height(60.dp))
+                }
+            }
+
         }
 
 }

@@ -22,7 +22,7 @@ fun Videos(vm:MainViewModel) {
 
     if (vm.videosLoading.value && vm.videos.isEmpty()) {
         CenterProgressBar()
-    } else if (!vm.videosLoading.value && vm.videos.isNotEmpty()) {
+    } else
 
         LazyColumn {
 
@@ -34,7 +34,6 @@ fun Videos(vm:MainViewModel) {
 
                 if ((index + 1) == vm.videos.size && !vm.videosLoading.value) {
                     vm.loadVideos()
-                    Log.d("wtf","Loaded more, ${vm.videos.size}")
                 }
 
             }
@@ -48,5 +47,5 @@ fun Videos(vm:MainViewModel) {
             }
         }
 
-    }
+
 }
