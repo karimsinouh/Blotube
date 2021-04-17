@@ -12,9 +12,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Blotube">
+
         <activity
             android:name=".ui.showPost.ShowPostActivity"
             android:label="@string/title_activity_show_post" />
+
+        <activity
+            android:name=".ui.playlistInfo.PlaylistInfoActivity"
+            android:label="huhuhu"/>
 
         <activity
             android:name=".ui.videoInfo.VideoInfoActivity"

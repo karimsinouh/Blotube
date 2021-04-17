@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.ui.Modifier
 import com.example.blotube.data.youtube.items.VideoItem
 import com.example.blotube.ui.theme.CenterProgressBar
+import com.example.blotube.ui.videos.shareVideo
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.YouTubePlayerTracker
@@ -59,14 +60,23 @@ class VideoInfoActivity:ComponentActivity() {
                 if (vm.video.value==null)
                     CenterProgressBar()
                 else
-                    VideoInfoLayout(vm.video.value!!)
+                    VideoInfoLayout(
+                        vm.video.value!!,
+                        onShareClick = { shareVideo(this@VideoInfoActivity,videoId)},
+                        onWatchLaterClick = { addToWatchLater() }
+                        )
 
             }
 
         }
 
+
+
     }
 
+    private fun addToWatchLater() {
+
+    }
 
 
 }

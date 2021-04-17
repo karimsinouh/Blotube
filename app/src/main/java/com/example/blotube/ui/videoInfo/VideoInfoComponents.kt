@@ -27,6 +27,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.Abs
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.YouTubePlayerTracker
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import com.example.blotube.R
+import com.example.blotube.data.youtube.Statistics
 import com.example.blotube.ui.videos.shareVideo
 
 /**
@@ -53,10 +54,13 @@ fun CustomYoutubePlayer(
 
 
 @Composable
-fun VideoInfoLayout(video:VideoItem){
+fun VideoInfoLayout(
+    video:VideoItem,
+    onShareClick:()->Unit,
+    onWatchLaterClick:()->Unit
+){
 
     val scrollState= rememberScrollState()
-    val context= LocalContext.current
 
     Column(
         modifier = Modifier
@@ -70,61 +74,73 @@ fun VideoInfoLayout(video:VideoItem){
         )
 
         Text(video.snippet.publishedAt)
-
         Spacer(modifier = Modifier.height(8.dp))
-        Row(Modifier.fillMaxWidth()) {
 
-            IconText(
-                Formatter.statistics(video.statistics?.viewCount),
-                Modifier
-                    .fillMaxWidth()
-                    .weight(1f),
-                Icons.Outlined.PanoramaFishEye,
-            )
+        VideoButtons(statistics = video.statistics!!,onShareClick,onWatchLaterClick)
 
-            IconText(
-                Formatter.statistics(video.statistics?.likeCount),
-                Modifier
-                    .fillMaxWidth()
-                    .weight(1f),
-                Icons.Outlined.ThumbUp,
-            )
-
-            IconText(
-                Formatter.statistics(video.statistics?.dislikeCount),
-                Modifier
-                    .fillMaxWidth()
-                    .weight(1f),
-                Icons.Outlined.ThumbDown,
-            )
-
-            IconText(
-                stringResource(id = R.string.share),
-                Modifier
-                    .fillMaxWidth()
-                    .weight(1f),
-                Icons.Outlined.Share,
-                true
-            ){
-                shareVideo(context,video.id!!)
-            }
-
-            IconText(
-                stringResource(id = R.string.later),
-                Modifier
-                    .fillMaxWidth()
-                    .weight(1f),
-                Icons.Outlined.WatchLater,
-                true
-            ){
-
-            }
-
-        }
         Spacer(modifier = Modifier.height(8.dp))
         Text(text = video.snippet.description)
 
     }
+}
+
+@Composable
+fun VideoButtons(
+    statistics: Statistics,
+    onShareClick: () -> Unit,
+    onWatchLaterClick: () -> Unit
+    ){
+
+    Row(Modifier.fillMaxWidth()) {
+
+        IconText(
+            Formatter.statistics(statistics.viewCount),
+            Modifier
+                .fillMaxWidth()
+                .weight(1f),
+            Icons.Outlined.PanoramaFishEye,
+        )
+
+        IconText(
+            Formatter.statistics(statistics.likeCount),
+            Modifier
+                .fillMaxWidth()
+                .weight(1f),
+            Icons.Outlined.ThumbUp,
+        )
+
+        IconText(
+            Formatter.statistics(statistics.dislikeCount),
+            Modifier
+                .fillMaxWidth()
+                .weight(1f),
+            Icons.Outlined.ThumbDown,
+        )
+
+        IconText(
+            stringResource(id = R.string.share),
+            Modifier
+                .fillMaxWidth()
+                .weight(1f),
+            Icons.Outlined.Share,
+            true
+        ){
+            onShareClick()
+        }
+
+        IconText(
+            stringResource(id = R.string.later),
+            Modifier
+                .fillMaxWidth()
+                .weight(1f),
+            Icons.Outlined.WatchLater,
+            true
+        ){
+            onWatchLaterClick()
+        }
+
+    }
+
 }
 
 

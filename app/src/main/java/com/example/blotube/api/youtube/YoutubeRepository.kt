@@ -30,4 +30,10 @@ class YoutubeRepository @Inject constructor(
         }
     }
 
+    suspend fun getPlaylistVideos(id:String,pageToken:String,listener: (Result<ResponsePage<VideoItem>>) -> Unit){
+        api.getPlaylistVideos(id,pageToken).apply {
+            listener(Result(isSuccessful,body(),message()))
+        }
+    }
+
 }
