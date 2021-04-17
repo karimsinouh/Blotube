@@ -29,6 +29,7 @@ import com.example.blotube.ui.blogs.showPost
 import com.example.blotube.ui.main.MainViewModel
 import com.example.blotube.ui.main.Screen
 import com.example.blotube.ui.playlists.PlaylistItem
+import com.example.blotube.ui.playlists.showPlaylist
 import com.example.blotube.ui.theme.RoundedShape
 import com.example.blotube.ui.videos.showVideoInfo
 import com.example.blotube.util.getFive
@@ -116,7 +117,9 @@ fun Home(
         val playlists=vm.playlists.getFive()
         if(playlists.isNotEmpty())
             items(playlists){item->
-                PlaylistItem(item) {}
+                PlaylistItem(item) {
+                    showPlaylist(context,item)
+                }
             }
 
         //blog posts

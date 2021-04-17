@@ -17,19 +17,8 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class VideoInfoActivity:ComponentActivity() {
 
-    private lateinit var listener:AbstractYouTubePlayerListener
-    private lateinit var tracker:YouTubePlayerTracker
-    private lateinit var videoId:String
-
-    private val vm by viewModels<VideoInfoViewModel>()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        videoId=intent.getStringExtra("video_id") ?: "none"
-        tracker=YouTubePlayerTracker()
-
-        listener =object :AbstractYouTubePlayerListener(){
+    private val listener by lazy{
+        object :AbstractYouTubePlayerListener(){
             override fun onReady(youTubePlayer: YouTubePlayer) {
                 super.onReady(youTubePlayer)
                 youTubePlayer.loadVideo(videoId,vm.seconds.value?:0f)
@@ -41,10 +30,24 @@ class VideoInfoActivity:ComponentActivity() {
                 vm.setSeconds(duration)
             }
         }
+    }
+
+
+    private val tracker by lazy {
+        YouTubePlayerTracker()
+    }
+
+    private lateinit var videoId:String
+
+    private val vm by viewModels<VideoInfoViewModel>()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        videoId=intent.getStringExtra("video_id") ?: "none"
 
         if(vm.video.value==null)
             vm.loadVideo(videoId)
-
 
         setContent {
 

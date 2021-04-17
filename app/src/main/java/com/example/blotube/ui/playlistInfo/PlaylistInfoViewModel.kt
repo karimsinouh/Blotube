@@ -18,7 +18,7 @@ class PlaylistInfoViewModel @Inject constructor(
     private var pageToken=""
 
     val video= mutableStateOf<VideoItem?>(null)
-    val videos= mutableListOf<VideoItem?>(null)
+    val videos= mutableListOf<VideoItem>()
     val message= mutableStateOf<String?>(null)
     val isLoading= mutableStateOf(false)
 

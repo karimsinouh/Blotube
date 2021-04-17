@@ -1,7 +1,5 @@
 package com.example.blotube.ui.videoInfo
 
-import android.util.Log
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -9,26 +7,21 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import com.example.blotube.R
+import com.example.blotube.data.youtube.Statistics
 import com.example.blotube.data.youtube.items.VideoItem
 import com.example.blotube.util.Formatter
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.YouTubePlayerTracker
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
-import com.example.blotube.R
-import com.example.blotube.data.youtube.Statistics
-import com.example.blotube.ui.videos.shareVideo
 
 /**
  * this is a custom video player
@@ -37,12 +30,12 @@ import com.example.blotube.ui.videos.shareVideo
 @Composable
 fun CustomYoutubePlayer(
     listener:AbstractYouTubePlayerListener,
-    modifier: Modifier,
+    modifier: Modifier?=Modifier,
     returnView:(YouTubePlayerView)->Unit
 ){
 
     return AndroidView(
-        modifier = modifier,
+        modifier = modifier!!,
         factory = {
             YouTubePlayerView(it).apply {
                 addYouTubePlayerListener(listener)
