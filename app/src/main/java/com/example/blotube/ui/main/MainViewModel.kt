@@ -34,9 +34,9 @@ class MainViewModel @Inject constructor(
     }
 
     //pages tokens
-    private var postsNextPageToken=""
-    private var videosNextPageToken=""
-    private var playlistsNextPageToken=""
+    var postsNextPageToken=""
+    var videosNextPageToken=""
+    var playlistsNextPageToken=""
 
     //loading states
     val videosLoading= mutableStateOf(true)

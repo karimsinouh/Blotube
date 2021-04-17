@@ -32,7 +32,8 @@ fun Videos(vm:MainViewModel) {
                 }
                 Divider()
 
-                if ((index + 1) == vm.videos.size && !vm.videosLoading.value) {
+                val canLoadMore=vm.videos.isNotEmpty() && vm.videosNextPageToken!="" || vm.videos.isEmpty() && vm.videosNextPageToken==""
+                if ((index + 1) == vm.videos.size && !vm.videosLoading.value && canLoadMore) {
                     vm.loadVideos()
                 }
 

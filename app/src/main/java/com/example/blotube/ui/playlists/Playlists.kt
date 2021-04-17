@@ -39,7 +39,8 @@ fun Playlists(vm:MainViewModel){
                     showPlaylist(context,item)
                 }
 
-                if ((index+1)==vm.playlists.size && !vm.playlistsLoading.value  ){
+                val canLoadMore=vm.playlists.isNotEmpty() && vm.playlistsNextPageToken!="" || vm.playlists.isEmpty() && vm.playlistsNextPageToken==""
+                if ((index+1)==vm.playlists.size && !vm.playlistsLoading.value && canLoadMore ){
                     vm.loadPlaylists()
                 }
 
