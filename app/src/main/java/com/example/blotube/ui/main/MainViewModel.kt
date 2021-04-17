@@ -53,10 +53,13 @@ class MainViewModel @Inject constructor(
     val message= mutableStateOf<ScreenMessage?>(null)
 
     fun loadPosts()=viewModelScope.launch{
-        blogger.getPosts {
 
+        try{
+            postsLoading.value=true
+        }catch (e:NullPointerException){}
+
+        blogger.getPosts(postsNextPageToken) {
             postsLoading.value=false
-
             if(it.isSuccessful){
                 postsNextPageToken=it.data?.nextPageToken?:""
                 blogs.addAll(it.data?.items?: emptyList())
@@ -64,6 +67,7 @@ class MainViewModel @Inject constructor(
                 message.value= ScreenMessage("blogs",it.message!!)
             }
         }
+
     }
 
     fun loadVideos()=viewModelScope.launch {

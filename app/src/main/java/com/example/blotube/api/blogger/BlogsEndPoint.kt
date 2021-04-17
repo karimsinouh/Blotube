@@ -16,4 +16,7 @@ interface BlogsEndPoint {
     @GET("blogs/${ApiConstants.BLOG_ID}/posts/{post_id}?key=${ApiConstants.API_KEY}")
     suspend fun getPost( @Path("post_id") postId:String ):Response<Blog>
 
+    @GET("blogs/${ApiConstants.BLOG_ID}/posts?key=${ApiConstants.API_KEY}&fetchImages=true")
+    suspend fun getMorePosts( @Query("pageToken") pageToken:String ):Response<ResponsePage<Blog>>
+
 }

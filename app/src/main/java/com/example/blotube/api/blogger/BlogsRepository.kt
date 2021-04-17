@@ -16,10 +16,15 @@ class BlogsRepository @Inject constructor (
     private val api:BlogsEndPoint
 ) {
 
-    suspend fun getPosts(pageToken:String?="", listener:(Result<ResponsePage<Blog>>)->Unit){
-        api.getPosts().let {
-            listener(Result(it.isSuccessful,it.body(),it.message()))
-        }
+    suspend fun getPosts(pageToken:String, listener:(Result<ResponsePage<Blog>>)->Unit){
+        if (pageToken=="")
+            api.getPosts().let {
+                listener(Result(it.isSuccessful,it.body(),it.message()))
+            }
+        else
+            api.getMorePosts(pageToken).let {
+                listener(Result(it.isSuccessful,it.body(),it.message()))
+            }
     }
 
     suspend fun getPost(blogId:String,listener:(Result<Blog>)->Unit){
@@ -27,5 +32,6 @@ class BlogsRepository @Inject constructor (
             listener(Result(it.isSuccessful,it.body(),it.message()))
         }
     }
+
 
 }
