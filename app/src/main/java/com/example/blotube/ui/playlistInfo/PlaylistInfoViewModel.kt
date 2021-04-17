@@ -15,7 +15,7 @@ class PlaylistInfoViewModel @Inject constructor(
     private val youtube: YoutubeRepository
 ) :ViewModel() {
 
-    private var pageToken=""
+    var pageToken=""
 
     val video= mutableStateOf<VideoItem?>(null)
     val videos= mutableListOf<VideoItem>()

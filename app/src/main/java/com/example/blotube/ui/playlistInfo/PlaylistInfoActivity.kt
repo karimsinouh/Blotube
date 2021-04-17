@@ -9,6 +9,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
@@ -106,7 +107,6 @@ class PlaylistInfoActivity: ComponentActivity() {
 
                     Text(playlistTitle,fontSize = 24.sp,
                         modifier = Modifier.padding(8.dp))
-                    Divider()
                 }
                 else{
 
@@ -133,7 +133,7 @@ class PlaylistInfoActivity: ComponentActivity() {
         }
 
 
-        if(vm.isLoading.value)
+        if(vm.isLoading.value && vm.videos.isEmpty())
             item {
                 CenterProgressBar()
             }
@@ -141,11 +141,26 @@ class PlaylistInfoActivity: ComponentActivity() {
             stickyHeader {
                 TextHeader(getString(R.string.videos))
             }
-            items(vm.videos) { item ->
+            itemsIndexed(vm.videos) {index, item ->
                 VideoItemSmall(item) {
                     vm.loadVideo(item.snippet.resourceId?.videoId!!)
                 }
+
+                val canLoadMore=vm.videos.isNotEmpty() && vm.pageToken!="" || vm.videos.isEmpty() && vm.pageToken==""
+
+                if((index+1)==vm.videos.size && !vm.isLoading.value && canLoadMore){
+                    vm.loadPlaylistVideos(playlistId)
+                }
+
             }
+
+            val isLoadingMore=vm.isLoading.value && vm.videos.isNotEmpty()
+            if(isLoadingMore){
+                item{
+                    CenterProgressBar(false)
+                }
+            }
+
         }
 
 
@@ -158,7 +173,7 @@ class PlaylistInfoActivity: ComponentActivity() {
             Modifier
                 .background(MaterialTheme.colors.background)
                 .fillMaxWidth()){
-            Text(text =text,modifier = Modifier.padding(8.dp))
+            Text(text =text,modifier = Modifier.padding(10.dp))
         }
     }
 
