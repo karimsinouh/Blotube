@@ -15,6 +15,7 @@ import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
@@ -119,16 +120,19 @@ class PlaylistInfoActivity: ComponentActivity() {
                     Text(
                         vm.video.value!!.snippet.publishedAt,
                         modifier = Modifier.padding(8.dp))
+
                     Spacer(modifier = Modifier.height(8.dp))
+
+                    val existsInWatchHistory=vm.exists(vm.video.value?.id!!).observeAsState()
 
                     VideoButtons(
                         statistics = vm.video.value!!.statistics!!,
-                        false,
+                        exists = existsInWatchHistory.value?:false,
                         onShareClick = {
-                                       shareVideo(this@PlaylistInfoActivity,vm.video.value?.id!!)
+                            shareVideo(this@PlaylistInfoActivity,vm.video.value?.id!!)
                         },
                         onWatchLaterChecked= {
-
+                            vm.onWatchLaterChecked(it)
                         })
                 }
             }
