@@ -17,6 +17,7 @@ import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -36,6 +37,7 @@ import javax.xml.transform.OutputKeys
 class ShowPostActivity : ComponentActivity() {
 
     private val vm by viewModels<ShowPostViewModel>()
+    private lateinit var postId:String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +59,7 @@ class ShowPostActivity : ComponentActivity() {
             }
         }
 
-        val postId=intent.getStringExtra("post_id")!!
+        postId=intent.getStringExtra("post_id")!!
         vm.loadPost(postId)
     }
 
@@ -69,6 +71,9 @@ class ShowPostActivity : ComponentActivity() {
             contentColor = MaterialTheme.colors.onBackground,
             elevation = 0.dp
         ) {
+
+
+
             IconButton(onClick = {
                 finish()
             }) { Icon(imageVector = Icons.Outlined.ArrowBack, contentDescription = "") }
@@ -86,12 +91,13 @@ class ShowPostActivity : ComponentActivity() {
                 .fillMaxWidth()
                 .weight(0.8f))
 
-            val checked= remember{mutableStateOf(false)}
+            val exists=vm.exists(postId).observeAsState()
 
-            IconToggleButton(checked = checked.value, onCheckedChange = {
-                checked.value = !checked.value
+
+            IconToggleButton(checked = exists.value?:false, onCheckedChange = {
+                vm.onReadLaterCheckChanges(it)
             }) {
-                if (checked.value)
+                if (exists.value == true)
                     Icon(imageVector = Icons.Outlined.Favorite, contentDescription = "")
                 else
                     Icon(imageVector = Icons.Outlined.FavoriteBorder, contentDescription ="" )

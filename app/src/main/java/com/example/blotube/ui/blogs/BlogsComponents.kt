@@ -30,7 +30,7 @@ fun BlogItem(blog:Blog, onClick: ()->Unit){
             val defPicture="https://www.androidcentral.com/sites/androidcentral.com/files/topic_images/2014/materialdesign_principles_metaphor.png"
 
             CoilImage(
-                data=blog.images!![0].url ?: defPicture,
+                data=blog.images!![0].url ,
                 contentDescription="",
                 modifier = Modifier
                     .fillMaxWidth()
@@ -62,7 +62,7 @@ fun BlogItemSmall(blog:Blog,onClick: () -> Unit){
             val defPicture="https://www.androidcentral.com/sites/androidcentral.com/files/topic_images/2014/materialdesign_principles_metaphor.png"
 
             CoilImage(
-                data=blog.images!![0].url ?: defPicture,
+                data=blog.images!![0].url,
                 contentDescription="",
                 modifier = Modifier
                     .width(120.dp)
@@ -95,7 +95,7 @@ fun Author(author:Author){
 
     Row(horizontalArrangement = Arrangement.spacedBy(8.dp),verticalAlignment = Alignment.CenterVertically) {
         CoilImage(
-            data="https:"+author.image?.url ?: defPicture,
+            data="https:"+author.image?.url,
             contentDescription="",
             modifier = Modifier
                 .size(30.dp)

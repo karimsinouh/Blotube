@@ -36,9 +36,10 @@ object SingletonsModule {
     @Provides
     fun youtubeApi(retrofit:Retrofit.Builder)=retrofit.baseUrl(ApiConstants.YOUTUBE_BASE_URL).build().create(YoutubeEndPoint::class.java)
 
+
     @Singleton
     @Provides
     fun database(@ApplicationContext c:Context)=
-        Room.databaseBuilder(c,Database::class.java,"").fallbackToDestructiveMigration().build()
+        Room.databaseBuilder(c,Database::class.java,"database").fallbackToDestructiveMigration().build()
 
 }
