@@ -121,11 +121,13 @@ class PlaylistInfoActivity: ComponentActivity() {
                         modifier = Modifier.padding(8.dp))
                     Spacer(modifier = Modifier.height(8.dp))
 
-                    VideoButtons(statistics = vm.video.value!!.statistics!!,
+                    VideoButtons(
+                        statistics = vm.video.value!!.statistics!!,
+                        false,
                         onShareClick = {
                                        shareVideo(this@PlaylistInfoActivity,vm.video.value?.id!!)
                         },
-                        onWatchLaterClick={
+                        onWatchLaterChecked= {
 
                         })
                 }

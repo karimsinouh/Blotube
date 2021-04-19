@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Column
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import com.example.blotube.data.youtube.items.VideoItem
 import com.example.blotube.ui.theme.CenterProgressBar
@@ -60,13 +61,16 @@ class VideoInfoActivity:ComponentActivity() {
                     lifecycle.addObserver(it)
                 }
 
+                val exists=vm.exists(videoId).observeAsState()
+
                 if (vm.video.value==null)
                     CenterProgressBar()
                 else
                     VideoInfoLayout(
                         vm.video.value!!,
+                        exists.value ?: false,
                         onShareClick = { shareVideo(this@VideoInfoActivity,videoId)},
-                        onWatchLaterClick = { addToWatchLater() }
+                        onWatchLaterChecked = { vm.onWatchLaterChecked(it) },
                         )
 
             }
@@ -76,10 +80,5 @@ class VideoInfoActivity:ComponentActivity() {
 
 
     }
-
-    private fun addToWatchLater() {
-
-    }
-
 
 }

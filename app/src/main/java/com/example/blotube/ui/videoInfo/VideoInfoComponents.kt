@@ -1,10 +1,12 @@
 package com.example.blotube.ui.videoInfo
 
+import android.system.Os.remove
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.IconToggleButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
@@ -45,12 +47,15 @@ fun CustomYoutubePlayer(
     )
 }
 
-
+/**
+ * param exists: if the video exists in watch later
+ * */
 @Composable
 fun VideoInfoLayout(
     video:VideoItem,
+    exists: Boolean,
     onShareClick:()->Unit,
-    onWatchLaterClick:()->Unit
+    onWatchLaterChecked: (Boolean) -> Unit
 ){
 
     val scrollState= rememberScrollState()
@@ -69,7 +74,7 @@ fun VideoInfoLayout(
         Text(video.snippet.publishedAt)
         Spacer(modifier = Modifier.height(8.dp))
 
-        VideoButtons(statistics = video.statistics!!,onShareClick,onWatchLaterClick)
+        VideoButtons(statistics = video.statistics!!,exists,onShareClick,onWatchLaterChecked)
 
         Spacer(modifier = Modifier.height(8.dp))
         Text(text = video.snippet.description)
@@ -77,11 +82,15 @@ fun VideoInfoLayout(
     }
 }
 
+/**
+ * param exists: if the video exists in watch later
+ * */
 @Composable
 fun VideoButtons(
     statistics: Statistics,
+    exists:Boolean,
     onShareClick: () -> Unit,
-    onWatchLaterClick: () -> Unit
+    onWatchLaterChecked: (Boolean) -> Unit
     ){
 
     Row(Modifier.fillMaxWidth()) {
@@ -121,15 +130,30 @@ fun VideoButtons(
             onShareClick()
         }
 
-        IconText(
-            stringResource(id = R.string.later),
-            Modifier
-                .fillMaxWidth()
-                .weight(1f),
-            Icons.Outlined.WatchLater,
-            true
-        ){
-            onWatchLaterClick()
+
+
+        IconToggleButton(checked = exists, onCheckedChange = {
+            onWatchLaterChecked(it)
+        }) {
+            if (!exists){
+                IconText(
+                    stringResource(id = R.string.later),
+                    Modifier
+                        .fillMaxWidth()
+                        .weight(1f),
+                    Icons.Outlined.WatchLater,
+                    false
+                )
+            }else{
+                IconText(
+                    stringResource(id = R.string.remove),
+                    Modifier
+                        .fillMaxWidth()
+                        .weight(1f),
+                    Icons.Outlined.Delete,
+                    false
+                )
+            }
         }
 
     }

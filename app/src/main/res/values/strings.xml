@@ -7,6 +7,7 @@
     <string name="search">Search</string>
     <string name="home">Home</string>
     <string name="see_all">See All</string>
+    <string name="remove">Remove</string>
 
     <string name="title_activity_show_post">ShowPostActivity</string>
     <string name="title_activity_video_info">Video Info</string>

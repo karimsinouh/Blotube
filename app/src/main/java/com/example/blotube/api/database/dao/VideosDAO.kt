@@ -23,6 +23,6 @@ interface VideosDAO {
     suspend fun deleteAll()
 
     @Query("SELECT EXISTS (SELECT 1 FROM Videos WHERE id=:id)")
-    suspend fun exists(id:String):Boolean
+    fun exists(id:String):LiveData<Boolean>
 
 }
