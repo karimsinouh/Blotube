@@ -14,5 +14,8 @@
     <string name="share">Share</string>
     <string name="later">Later</string>
     <string name="share_video">Share this video</string>
+    <string name="watch_later">Watch Later</string>
+    <string name="read_later">Read Later</string>
+    <string name="settings">Settings</string>
 
 </resources>

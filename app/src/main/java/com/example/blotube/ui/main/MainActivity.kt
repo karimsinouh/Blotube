@@ -20,8 +20,11 @@ import androidx.navigation.compose.*
 import com.example.blotube.ui.blogs.Blogs
 import com.example.blotube.ui.drawer.Drawer
 import com.example.blotube.ui.home.Home
+import com.example.blotube.ui.later.ReadLater
+import com.example.blotube.ui.later.WatchLater
 import com.example.blotube.ui.playlists.Playlists
 import com.example.blotube.ui.search.Search
+import com.example.blotube.ui.settings.Settings
 import com.example.blotube.ui.theme.BlotubeTheme
 import com.example.blotube.ui.theme.DrawerShape
 import com.example.blotube.ui.theme.RoundedShape
@@ -62,7 +65,7 @@ class MainActivity : ComponentActivity() {
                 Scaffold(
                     bottomBar = { BottomBar(shouldShowMenu) },
                     topBar = {TopBar(shouldShowMenu)},
-                    drawerContent = { Drawer() },
+                    drawerContent = { Drawer{ navigate(it.root) } },
                     drawerShape = DrawerShape,
                     scaffoldState = scaffoldState
                 ) {
@@ -99,11 +102,18 @@ class MainActivity : ComponentActivity() {
     @Preview
     private fun Content()=
         NavHost(navController = navController,startDestination = Screen.ScreenHome.root){
+
+            //Bottom Navigation
             composable(Screen.ScreenHome.root){ Home(vm,navController) }
             composable(Screen.ScreenVideos.root){ Videos(vm) }
             composable(Screen.ScreenSearch.root){ Search() }
             composable(Screen.ScreenPlaylists.root){ Playlists(vm) }
             composable(Screen.ScreenBlogs.root){ Blogs(vm) }
+
+            //Drawer
+            composable(Screen.ScreenWatchLater.root){ WatchLater() }
+            composable(Screen.ScreenReadLater.root){ ReadLater() }
+            composable(Screen.ScreenSettings.root){ Settings() }
         }
 
 
@@ -120,14 +130,20 @@ class MainActivity : ComponentActivity() {
                 vm.menuItems.forEach {
                     BottomNavigationItem(
                         selected = currentRoot==it.root,
-                        onClick = { navController.navigate(it.root) },
                         label = { Text(text = getString(it.label),maxLines=1)},
                         icon = { Icon(imageVector = it.icon, contentDescription = "") },
                         alwaysShowLabel = false,
+                        onClick = {navigate(it.root)},
                     )
                 }
             }
 
+    }
+    private fun navigate(route:String){
+        navController.navigate(route){
+            popUpTo=navController.graph.startDestination
+            launchSingleTop=true
+        }
     }
 
     private fun List<Screen>.containsRoot(root:String):Boolean{

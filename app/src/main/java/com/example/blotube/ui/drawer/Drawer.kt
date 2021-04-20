@@ -15,26 +15,35 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.blotube.R
+import com.example.blotube.ui.main.Screen
 
 @ExperimentalMaterialApi
 @Composable
-@Preview
-fun Drawer(){
+fun Drawer(
+    onClick: (Screen) -> Unit
+){
+
+    val drawerScreens= listOf(
+        Screen.ScreenWatchLater,Screen.ScreenReadLater,Screen.ScreenSettings
+    )
 
     Column {
         Image(painter = painterResource(id = R.drawable.drawer_header),
             contentDescription = "",
-            modifier = Modifier.fillMaxWidth().height(180.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(180.dp),
             contentScale = ContentScale.Crop
         )
-
-        DrawerRow(text = "Home", icon =Icons.Outlined.Home) {}
-        DrawerRow(text = "Watch Later", icon =Icons.Outlined.WatchLater,true) {}
-        DrawerRow(text = "Settings", icon =Icons.Outlined.Settings) {}
-        DrawerRow(text = "Favorites", icon =Icons.Outlined.FavoriteBorder) {}
+        drawerScreens.forEach {
+            DrawerRow(text = stringResource(id = it.label), icon =it.icon) {
+                onClick(it)
+            }
+        }
     }
 
 }
