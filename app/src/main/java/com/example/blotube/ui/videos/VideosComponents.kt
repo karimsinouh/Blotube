@@ -15,6 +15,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.os.bundleOf
@@ -25,6 +26,7 @@ import com.example.blotube.ui.theme.ImagePlaceholder
 import com.example.blotube.ui.theme.RoundedShape
 import com.google.accompanist.coil.CoilImage
 import com.example.blotube.R
+import com.example.blotube.api.database.entity.VideosEntity
 import com.example.blotube.ui.videoInfo.VideoInfoActivity
 
 
@@ -35,7 +37,6 @@ fun VideoItem(video:VideoItem, onClick: ()->Unit){
         Modifier
             .fillMaxWidth()
             .clickable { onClick() }){
-
         Column(Modifier.padding(12.dp),verticalArrangement = Arrangement.spacedBy(4.dp)) {
 
             Box(modifier = Modifier
@@ -70,7 +71,6 @@ fun VideoItem(video:VideoItem, onClick: ()->Unit){
 
 }
 
-
 @Composable
 fun VideoItemSmall(video: VideoItem, onClick: () -> Unit){
     Box(Modifier.clickable { onClick() }) {
@@ -102,6 +102,7 @@ fun VideoItemSmall(video: VideoItem, onClick: () -> Unit){
         }
     }
 }
+
 
 fun showVideoInfo(c: Context, videoId:String){
     val intent= Intent(c, VideoInfoActivity::class.java)

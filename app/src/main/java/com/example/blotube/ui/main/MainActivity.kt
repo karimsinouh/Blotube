@@ -18,6 +18,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
+import com.example.blotube.api.database.Database
 import com.example.blotube.ui.blogs.Blogs
 import com.example.blotube.ui.drawer.Drawer
 import com.example.blotube.ui.home.Home
@@ -35,6 +36,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @ExperimentalPagerApi
 @AndroidEntryPoint
@@ -49,6 +51,8 @@ class MainActivity : ComponentActivity() {
 
     private val vm by viewModels<MainViewModel>()
 
+    @Inject
+    lateinit var database:Database
 
     @ExperimentalMaterialApi
     @ExperimentalFoundationApi
@@ -131,7 +135,7 @@ class MainActivity : ComponentActivity() {
             composable(Screen.ScreenBlogs.root){ Blogs(vm) }
 
             //Drawer
-            composable(Screen.ScreenWatchLater.root){ WatchLater() }
+            composable(Screen.ScreenWatchLater.root){ WatchLater(database) }
             composable(Screen.ScreenReadLater.root){ ReadLater() }
             composable(Screen.ScreenSettings.root){ Settings() }
         }
