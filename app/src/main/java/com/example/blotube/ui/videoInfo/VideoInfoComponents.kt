@@ -132,24 +132,22 @@ fun VideoButtons(
 
 
 
-        IconToggleButton(checked = exists, onCheckedChange = {
-            onWatchLaterChecked(it)
-        }) {
+        IconToggleButton(
+            checked = exists,
+            onCheckedChange = { onWatchLaterChecked(it) },
+            modifier = Modifier.weight(1f)
+        ) {
             if (!exists){
                 IconText(
                     stringResource(id = R.string.later),
-                    Modifier
-                        .fillMaxWidth()
-                        .weight(1f),
+                    Modifier.fillMaxWidth(),
                     Icons.Outlined.WatchLater,
                     false
                 )
             }else{
                 IconText(
                     stringResource(id = R.string.remove),
-                    Modifier
-                        .fillMaxWidth()
-                        .weight(1f),
+                    Modifier.fillMaxWidth(),
                     Icons.Outlined.Delete,
                     false
                 )
