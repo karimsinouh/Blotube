@@ -32,7 +32,7 @@ fun Blogs(
         LazyColumn {
             itemsIndexed(vm.blogs){index,item->
                 BlogItem(item){
-                    showPost(c,item)
+                    showPost(c,item.id!!)
                 }
                 Divider()
 
@@ -54,8 +54,8 @@ fun Blogs(
 
 }
 
-fun showPost(c:Context,post:Blog){
+fun showPost(c:Context,postId:String){
     val i= Intent(c, ShowPostActivity::class.java)
-    i.putExtra("post_id",post.id)
+    i.putExtra("post_id",postId)
     c.startActivity(i)
 }

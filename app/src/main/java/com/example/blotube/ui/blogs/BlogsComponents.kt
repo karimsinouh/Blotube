@@ -59,8 +59,6 @@ fun BlogItemSmall(blog:Blog,onClick: () -> Unit){
     Box(Modifier.clickable { onClick() }) {
         Row(Modifier.padding(8.dp)) {
 
-            val defPicture="https://www.androidcentral.com/sites/androidcentral.com/files/topic_images/2014/materialdesign_principles_metaphor.png"
-
             CoilImage(
                 data=blog.images!![0].url,
                 contentDescription="",
@@ -89,9 +87,6 @@ fun BlogItemSmall(blog:Blog,onClick: () -> Unit){
 
 @Composable
 fun Author(author:Author){
-
-    val defPicture="https://www.androidcentral.com/sites/androidcentral.com/files/topic_images/2014/materialdesign_principles_metaphor.png"
-
 
     Row(horizontalArrangement = Arrangement.spacedBy(8.dp),verticalAlignment = Alignment.CenterVertically) {
         CoilImage(

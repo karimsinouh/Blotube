@@ -136,7 +136,7 @@ class MainActivity : ComponentActivity() {
 
             //Drawer
             composable(Screen.ScreenWatchLater.root){ WatchLater(database) }
-            composable(Screen.ScreenReadLater.root){ ReadLater() }
+            composable(Screen.ScreenReadLater.root){ ReadLater(database) }
             composable(Screen.ScreenSettings.root){ Settings() }
         }
 

@@ -134,7 +134,7 @@ fun Home(
         if (posts.isNotEmpty())
             items(posts){item->
                 BlogItem(item) {
-                    showPost(context,item)
+                    showPost(context,item.id!!)
                 }
                 Divider()
             }
