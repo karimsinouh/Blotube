@@ -24,6 +24,7 @@ import com.example.blotube.ui.main.Screen
 @ExperimentalMaterialApi
 @Composable
 fun Drawer(
+    currentRoute:String,
     onClick: (Screen) -> Unit
 ){
 
@@ -40,7 +41,12 @@ fun Drawer(
             contentScale = ContentScale.Crop
         )
         drawerScreens.forEach {
-            DrawerRow(text = stringResource(id = it.label), icon =it.icon) {
+            val selected=it.root==currentRoute
+            DrawerRow(
+                text = stringResource(id = it.label),
+                icon =it.icon,
+                isSelected = selected
+            ) {
                 onClick(it)
             }
         }

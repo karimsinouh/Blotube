@@ -10,6 +10,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -44,8 +45,10 @@ class MainActivity : ComponentActivity() {
     private lateinit var navBackStackEntry: State<NavBackStackEntry?>
     private lateinit var currentRoot:String
     private lateinit var scaffoldState: ScaffoldState
+    private lateinit var scope:CoroutineScope
 
     private val vm by viewModels<MainViewModel>()
+
 
     @ExperimentalMaterialApi
     @ExperimentalFoundationApi
@@ -59,15 +62,21 @@ class MainActivity : ComponentActivity() {
             navBackStackEntry=navController.currentBackStackEntryAsState()
             currentRoot=navBackStackEntry.value?.arguments?.get(KEY_ROUTE).toString()
 
+            scope= rememberCoroutineScope()
+
             val shouldShowMenu=vm.menuItems.containsRoot(currentRoot)
 
             BlotubeTheme{
                 Scaffold(
                     bottomBar = { BottomBar(shouldShowMenu) },
                     topBar = {TopBar(shouldShowMenu)},
-                    drawerContent = { Drawer{ navigate(it.root) } },
+                    drawerContent = {
+                        Drawer(currentRoot){
+                            navigate(it.root)
+                            closeDrawer()
+                        } },
                     drawerShape = DrawerShape,
-                    scaffoldState = scaffoldState
+                    scaffoldState = scaffoldState,
                 ) {
                     Content()
                 }
@@ -88,15 +97,26 @@ class MainActivity : ComponentActivity() {
             ) {
 
                 IconButton(onClick = {
-                    CoroutineScope(Dispatchers.Main).launch {
-                        scaffoldState.drawerState.open()
-                    }
+                    openDrawer()
                 }) { Icon(imageVector = Icons.Outlined.Menu, contentDescription = "") }
 
                 Text(text = "Blotube",fontSize = 16.sp)
             }
     }
-    
+
+    private fun openDrawer(){
+        scope.launch {
+            scaffoldState.drawerState.open()
+
+        }
+    }
+
+    private fun closeDrawer(){
+        scope.launch {
+            scaffoldState.drawerState.close()
+        }
+    }
+
     @ExperimentalFoundationApi
     @Composable
     @Preview
