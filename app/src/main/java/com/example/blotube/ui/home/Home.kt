@@ -167,7 +167,7 @@ fun Header(title:String,actionText:String,onAction:()->Unit){
                 modifier= Modifier
                     .weight(0.9f)
                     .fillMaxWidth(),
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Black
             )
 
             TextButton(

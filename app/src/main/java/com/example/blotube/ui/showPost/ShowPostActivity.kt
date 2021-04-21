@@ -1,6 +1,7 @@
 package com.example.blotube.ui.showPost
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.webkit.WebChromeClient
@@ -17,6 +18,7 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material.icons.outlined.Share
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.livedata.observeAsState
@@ -109,7 +111,7 @@ class ShowPostActivity : ComponentActivity() {
 
             Text(title,fontSize = 16.sp,modifier= Modifier
                 .fillMaxWidth()
-                .weight(0.8f))
+                .weight(0.7f))
 
             val exists=vm.exists(postId).observeAsState()
 
@@ -123,7 +125,23 @@ class ShowPostActivity : ComponentActivity() {
                     Icon(imageVector = Icons.Outlined.FavoriteBorder, contentDescription ="" )
             }
 
+            IconButton(onClick = {
+                share()
+            }) {
+                Icon(imageVector = Icons.Outlined.Share, contentDescription ="" )
+            }
+
         }
+    }
+
+    private fun share() {
+        val intent=Intent().apply {
+            type="text/plain"
+            action=Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT,vm.post.value?.url)
+
+        }
+        startActivity(intent)
     }
 
     @SuppressLint("SetJavaScriptEnabled")
