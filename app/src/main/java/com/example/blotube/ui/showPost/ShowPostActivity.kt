@@ -9,6 +9,7 @@ import android.webkit.WebViewClient
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -17,6 +18,7 @@ import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,8 +30,10 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.lifecycleScope
 import com.example.blotube.ui.theme.BlotubeTheme
 import com.example.blotube.ui.theme.CenterProgressBar
+import com.example.blotube.util.NightMode
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 import javax.xml.transform.OutputKeys
 
 
@@ -39,10 +43,18 @@ class ShowPostActivity : ComponentActivity() {
     private val vm by viewModels<ShowPostViewModel>()
     private lateinit var postId:String
 
+    @Inject
+    lateinit var nightMode: NightMode
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+
         setContent {
-            BlotubeTheme {
+
+            val nightMode=nightMode.isEnabled.collectAsState(initial = false)
+
+            BlotubeTheme(nightMode.value) {
                 
                 Column {
 

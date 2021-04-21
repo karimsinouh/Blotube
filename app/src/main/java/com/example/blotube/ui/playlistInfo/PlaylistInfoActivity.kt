@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -15,6 +16,7 @@ import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -30,9 +32,11 @@ import com.example.blotube.R
 import com.example.blotube.ui.theme.BlotubeTheme
 import com.example.blotube.ui.videoInfo.CustomYoutubePlayer
 import com.example.blotube.ui.videos.shareVideo
+import com.example.blotube.util.NightMode
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.YouTubePlayerTracker
+import javax.inject.Inject
 
 @ExperimentalFoundationApi
 @AndroidEntryPoint
@@ -60,6 +64,8 @@ class PlaylistInfoActivity: ComponentActivity() {
 
     private val vm by viewModels<PlaylistInfoViewModel>()
 
+    @Inject lateinit var nightMode: NightMode
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -71,8 +77,10 @@ class PlaylistInfoActivity: ComponentActivity() {
 
         setContent {
 
-            BlotubeTheme {
-                Column {
+            val nightMode=nightMode.isEnabled.collectAsState(initial = false)
+
+            BlotubeTheme(nightMode.value) {
+                Column(Modifier.background(MaterialTheme.colors.background)) {
                     if(vm.video.value!=null){
                         CustomYoutubePlayer(
                             listener = listener

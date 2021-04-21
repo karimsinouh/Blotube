@@ -4,12 +4,14 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -31,6 +33,7 @@ import com.example.blotube.ui.theme.BlotubeTheme
 import com.example.blotube.ui.theme.DrawerShape
 import com.example.blotube.ui.theme.RoundedShape
 import com.example.blotube.ui.videos.Videos
+import com.example.blotube.util.NightMode
 import com.google.accompanist.pager.ExperimentalPagerApi
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -54,11 +57,13 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var database:Database
 
+    @Inject lateinit var nightMode: NightMode
+
     @ExperimentalMaterialApi
     @ExperimentalFoundationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         setContent {
 
             scaffoldState= rememberScaffoldState(DrawerState(DrawerValue.Closed))
@@ -70,8 +75,10 @@ class MainActivity : ComponentActivity() {
 
             val shouldShowMenu=vm.menuItems.containsRoot(currentRoot)
 
-            BlotubeTheme{
-                Scaffold(
+            val nightMode=nightMode.isEnabled.collectAsState(initial = false)
+
+            BlotubeTheme(nightMode.value){
+            Scaffold(
                     bottomBar = { BottomBar(shouldShowMenu) },
                     topBar = {TopBar(shouldShowMenu)},
                     drawerContent = {
@@ -137,10 +144,8 @@ class MainActivity : ComponentActivity() {
             //Drawer
             composable(Screen.ScreenWatchLater.root){ WatchLater(database) }
             composable(Screen.ScreenReadLater.root){ ReadLater(database) }
-            composable(Screen.ScreenSettings.root){ Settings() }
+            composable(Screen.ScreenSettings.root){ Settings(database,nightMode) }
         }
-
-
 
 
     @Composable

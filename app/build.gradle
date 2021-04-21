@@ -90,5 +90,8 @@ dependencies {
     //pager
     implementation "com.google.accompanist:accompanist-pager:0.7.1"
 
+    //dataStore
+    implementation "androidx.datastore:datastore-preferences:1.0.0-beta01"
+
 
 }

@@ -4,16 +4,23 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.material.MaterialTheme
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import com.example.blotube.data.youtube.items.VideoItem
+import com.example.blotube.ui.theme.BlotubeTheme
 import com.example.blotube.ui.theme.CenterProgressBar
 import com.example.blotube.ui.videos.shareVideo
+import com.example.blotube.util.NightMode
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.YouTubePlayerTracker
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class VideoInfoActivity:ComponentActivity() {
@@ -42,8 +49,12 @@ class VideoInfoActivity:ComponentActivity() {
 
     private val vm by viewModels<VideoInfoViewModel>()
 
+    @Inject
+    lateinit var nightMode: NightMode
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
 
         videoId=intent.getStringExtra("video_id") ?: "none"
 
@@ -52,27 +63,31 @@ class VideoInfoActivity:ComponentActivity() {
 
         setContent {
 
-            Column {
+            val nightMode=nightMode.isEnabled.collectAsState(initial = false)
 
-                CustomYoutubePlayer(
-                    listener = listener,
-                    modifier = Modifier,
-                ){
-                    lifecycle.addObserver(it)
-                }
+            BlotubeTheme(nightMode.value) {
+                Column(Modifier.background(MaterialTheme.colors.background)) {
 
-                val exists=vm.exists(videoId).observeAsState()
+                    CustomYoutubePlayer(
+                        listener = listener,
+                        modifier = Modifier,
+                    ){
+                        lifecycle.addObserver(it)
+                    }
 
-                if (vm.video.value==null)
-                    CenterProgressBar()
-                else
-                    VideoInfoLayout(
-                        vm.video.value!!,
-                        exists.value ?: false,
-                        onShareClick = { shareVideo(this@VideoInfoActivity,videoId)},
-                        onWatchLaterChecked = { vm.onWatchLaterChecked(it) },
+                    val exists=vm.exists(videoId).observeAsState()
+
+                    if (vm.video.value==null)
+                        CenterProgressBar()
+                    else
+                        VideoInfoLayout(
+                            vm.video.value!!,
+                            exists.value ?: false,
+                            onShareClick = { shareVideo(this@VideoInfoActivity,videoId)},
+                            onWatchLaterChecked = { vm.onWatchLaterChecked(it) },
                         )
 
+                }
             }
 
         }
