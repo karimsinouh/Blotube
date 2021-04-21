@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
@@ -68,28 +69,36 @@ class VideoInfoActivity:ComponentActivity() {
 
                 window.statusBarColor=MaterialTheme.colors.primaryVariant.toArgb()
 
-                Column(Modifier.background(MaterialTheme.colors.background)) {
+                Surface(
+                    color=MaterialTheme.colors.background,
+                    contentColor= MaterialTheme.colors.onBackground,
+                ) {
 
-                    CustomYoutubePlayer(
-                        listener = listener,
-                        modifier = Modifier,
-                    ){
-                        lifecycle.addObserver(it)
+                    Column {
+
+                        CustomYoutubePlayer(
+                            listener = listener,
+                            modifier = Modifier,
+                        ){
+                            lifecycle.addObserver(it)
+                        }
+
+                        val exists=vm.exists(videoId).observeAsState()
+
+                        if (vm.video.value==null)
+                            CenterProgressBar()
+                        else
+                            VideoInfoLayout(
+                                vm.video.value!!,
+                                exists.value ?: false,
+                                onShareClick = { shareVideo(this@VideoInfoActivity,videoId)},
+                                onWatchLaterChecked = { vm.onWatchLaterChecked(it) },
+                            )
+
                     }
 
-                    val exists=vm.exists(videoId).observeAsState()
-
-                    if (vm.video.value==null)
-                        CenterProgressBar()
-                    else
-                        VideoInfoLayout(
-                            vm.video.value!!,
-                            exists.value ?: false,
-                            onShareClick = { shareVideo(this@VideoInfoActivity,videoId)},
-                            onWatchLaterChecked = { vm.onWatchLaterChecked(it) },
-                        )
-
                 }
+
             }
 
         }

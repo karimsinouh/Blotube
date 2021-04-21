@@ -57,14 +57,21 @@ class ShowPostActivity : ComponentActivity() {
 
                 window.statusBarColor=MaterialTheme.colors.primaryVariant.toArgb()
 
-                Column {
+                Surface (
+                    color=MaterialTheme.colors.background,
+                    contentColor = MaterialTheme.colors.onBackground
+                ){
 
-                    if(vm.isLoading.value){
-                        CenterProgressBar()
-                    }else{
-                        TopBar()
-                        Divider()
-                        HtmlPostView(data = vm.post.value?.content!!)
+                    Column {
+
+                        if(vm.isLoading.value){
+                            CenterProgressBar()
+                        }else{
+                            TopBar()
+                            Divider()
+                            HtmlPostView(data = vm.post.value?.content!!)
+                        }
+
                     }
 
                 }

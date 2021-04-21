@@ -4,10 +4,7 @@ import android.system.Os.remove
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.IconToggleButton
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.runtime.Composable
@@ -68,16 +65,24 @@ fun VideoInfoLayout(
 
         Text(
             text = video.snippet.title,
-            fontSize = 24.sp
+            fontSize = 24.sp,
+            color=MaterialTheme.colors.onBackground
         )
 
-        Text(video.snippet.publishedAt)
+        Text(
+            video.snippet.publishedAt,
+            color=MaterialTheme.colors.onBackground
+        )
         Spacer(modifier = Modifier.height(8.dp))
 
         VideoButtons(statistics = video.statistics!!,exists,onShareClick,onWatchLaterChecked)
 
         Spacer(modifier = Modifier.height(8.dp))
-        Text(text = video.snippet.description)
+
+        Text(
+            text = video.snippet.description,
+            color=MaterialTheme.colors.onBackground
+        )
 
     }
 }
@@ -178,8 +183,8 @@ fun IconText(
         ) {
 
             Column(horizontalAlignment = Alignment.CenterHorizontally,verticalArrangement = Arrangement.Center) {
-                Icon(imageVector = icon, contentDescription = "")
-                Text(text = text)
+                Icon(imageVector = icon, contentDescription = "",tint =MaterialTheme.colors.onBackground)
+                Text(text = text,color=MaterialTheme.colors.onBackground)
             }
         }
 }else{
@@ -188,7 +193,7 @@ fun IconText(
         verticalArrangement = Arrangement.Center,
         modifier = modifier
     ) {
-        Icon(imageVector = icon, contentDescription = "")
-        Text(text = text)
+        Icon(imageVector = icon, contentDescription = "",tint =MaterialTheme.colors.onBackground)
+        Text(text = text,color=MaterialTheme.colors.onBackground)
     }
 }

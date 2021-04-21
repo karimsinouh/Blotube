@@ -17,6 +17,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.lerp
@@ -30,6 +31,7 @@ import com.example.blotube.ui.main.MainViewModel
 import com.example.blotube.ui.main.Screen
 import com.example.blotube.ui.playlists.PlaylistItem
 import com.example.blotube.ui.playlists.showPlaylist
+import com.example.blotube.ui.theme.ImagePlaceholder
 import com.example.blotube.ui.theme.RoundedShape
 import com.example.blotube.ui.videos.showVideoInfo
 import com.example.blotube.util.getFive
@@ -77,7 +79,10 @@ fun Home(
                         .height(150.dp)
                         .clip(RoundedShape)
                         .clickable {
-                            showVideoInfo(context,vm.videos[currentPage].snippet.resourceId?.videoId!!)
+                            showVideoInfo(
+                                context,
+                                vm.videos[currentPage].snippet.resourceId?.videoId!!
+                            )
                         }
                         .graphicsLayer {
                             // Calculate the absolute offset for the current page from the
@@ -161,7 +166,9 @@ fun Header(title:String,actionText:String,onAction:()->Unit){
                 fontSize = 18.sp,
                 modifier= Modifier
                     .weight(0.9f)
-                    .fillMaxWidth())
+                    .fillMaxWidth(),
+                fontWeight = FontWeight.Bold
+            )
 
             TextButton(
                 onClick = {
@@ -182,7 +189,8 @@ fun PagerVideoItem(thumbnails: Thumbnails,modifier: Modifier){
                 data=thumbnails.medium.url,
                 contentDescription = "",
                 Modifier.fillMaxSize(),
-                contentScale = ContentScale.Crop
+                contentScale = ContentScale.Crop,
+                loading = { ImagePlaceholder()}
             )
 
             Image(

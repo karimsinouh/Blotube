@@ -11,10 +11,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Divider
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.livedata.observeAsState
@@ -82,15 +79,20 @@ class PlaylistInfoActivity: ComponentActivity() {
 
                 window.statusBarColor=MaterialTheme.colors.primaryVariant.toArgb()
 
-                Column(Modifier.background(MaterialTheme.colors.background)) {
-                    if(vm.video.value!=null){
-                        CustomYoutubePlayer(
-                            listener = listener
-                        ) {
-                            lifecycle.addObserver(it)
+                Surface(
+                    color=MaterialTheme.colors.background,
+                    contentColor= MaterialTheme.colors.onBackground,
+                ) {
+                    Column {
+                        if(vm.video.value!=null){
+                            CustomYoutubePlayer(
+                                listener = listener
+                            ) {
+                                lifecycle.addObserver(it)
+                            }
                         }
+                        Content()
                     }
-                    Content()
                 }
             }
 
