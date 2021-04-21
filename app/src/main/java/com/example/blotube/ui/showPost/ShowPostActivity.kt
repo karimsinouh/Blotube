@@ -23,6 +23,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -43,8 +44,6 @@ class ShowPostActivity : ComponentActivity() {
     private val vm by viewModels<ShowPostViewModel>()
     private lateinit var postId:String
 
-    @Inject
-    lateinit var nightMode: NightMode
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,10 +51,12 @@ class ShowPostActivity : ComponentActivity() {
 
         setContent {
 
-            val nightMode=nightMode.isEnabled.collectAsState(initial = false)
+            val nightMode=NightMode.isEnabled(this).collectAsState(initial = false)
 
             BlotubeTheme(nightMode.value) {
-                
+
+                window.statusBarColor=MaterialTheme.colors.primaryVariant.toArgb()
+
                 Column {
 
                     if(vm.isLoading.value){
@@ -79,8 +80,8 @@ class ShowPostActivity : ComponentActivity() {
     @Preview
     private fun TopBar(){
         TopAppBar(
-            backgroundColor = MaterialTheme.colors.background,
-            contentColor = MaterialTheme.colors.onBackground,
+            backgroundColor = MaterialTheme.colors.primary,
+            contentColor = MaterialTheme.colors.onPrimary,
             elevation = 0.dp
         ) {
 

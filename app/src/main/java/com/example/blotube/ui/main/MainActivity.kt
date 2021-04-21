@@ -8,11 +8,13 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -35,6 +37,7 @@ import com.example.blotube.ui.theme.RoundedShape
 import com.example.blotube.ui.videos.Videos
 import com.example.blotube.util.NightMode
 import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.android.material.color.MaterialColors
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -57,13 +60,12 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var database:Database
 
-    @Inject lateinit var nightMode: NightMode
-
     @ExperimentalMaterialApi
     @ExperimentalFoundationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+
+
         setContent {
 
             scaffoldState= rememberScaffoldState(DrawerState(DrawerValue.Closed))
@@ -75,10 +77,13 @@ class MainActivity : ComponentActivity() {
 
             val shouldShowMenu=vm.menuItems.containsRoot(currentRoot)
 
-            val nightMode=nightMode.isEnabled.collectAsState(initial = false)
+            val nightMode=NightMode.isEnabled(this).collectAsState(initial = false)
 
             BlotubeTheme(nightMode.value){
-            Scaffold(
+
+                window.statusBarColor=MaterialTheme.colors.primaryVariant.toArgb()
+
+                Scaffold(
                     bottomBar = { BottomBar(shouldShowMenu) },
                     topBar = {TopBar(shouldShowMenu)},
                     drawerContent = {
@@ -100,27 +105,28 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     private fun TopBar(visible: Boolean){
-        if (visible)
-            TopAppBar(
-                backgroundColor = MaterialTheme.colors.background,
-                contentColor = MaterialTheme.colors.onBackground,
-                elevation = 1.dp
-            ) {
+        TopAppBar(
+            backgroundColor = MaterialTheme.colors.primary,
+            contentColor = MaterialTheme.colors.onPrimary,
+            elevation = 1.dp
+        ) {
 
+            if(visible)
                 IconButton(onClick = {
                     openDrawer()
                 }) { Icon(imageVector = Icons.Outlined.Menu, contentDescription = "") }
+            else
+                IconButton(onClick = {
+                    navController.popBackStack()
+                }) { Icon(imageVector = Icons.Outlined.ArrowBack, contentDescription = "") }
 
-                Text(text = "Blotube",fontSize = 16.sp)
-            }
-    }
-
-    private fun openDrawer(){
-        scope.launch {
-            scaffoldState.drawerState.open()
-
+            Text(text = "Blotube",fontSize = 16.sp)
         }
     }
+
+    private fun openDrawer()= scope.launch {
+            scaffoldState.drawerState.open()
+        }
 
     private fun closeDrawer(){
         scope.launch {
@@ -144,7 +150,7 @@ class MainActivity : ComponentActivity() {
             //Drawer
             composable(Screen.ScreenWatchLater.root){ WatchLater(database) }
             composable(Screen.ScreenReadLater.root){ ReadLater(database) }
-            composable(Screen.ScreenSettings.root){ Settings(database,nightMode) }
+            composable(Screen.ScreenSettings.root){ Settings(database) }
         }
 
 
@@ -162,7 +168,7 @@ class MainActivity : ComponentActivity() {
                         label = { Text(text = getString(it.label),maxLines=1)},
                         icon = { Icon(imageVector = it.icon, contentDescription = "") },
                         alwaysShowLabel = false,
-                        onClick = {navigate(it.root)},
+                        onClick = {navigate(it.root)}
                     )
                 }
             }

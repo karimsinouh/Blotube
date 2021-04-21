@@ -11,17 +11,18 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class NightMode @Inject constructor(@ApplicationContext val c:Context) {
+object NightMode {
 
     private val NIGHT_MODE= booleanPreferencesKey("night_mode")
     private val Context.nightDataStore:DataStore<Preferences> by preferencesDataStore(name="night_mode")
 
-    val isEnabled:Flow<Boolean> =c.nightDataStore.data.map {
-        it[NIGHT_MODE] ?: false
+    fun isEnabled(c:Context):Flow<Boolean>{
+        return c.nightDataStore.data.map {
+            it[NIGHT_MODE] ?: false
+        }
     }
 
-
-    suspend fun setEnabled(value:Boolean){
+    suspend fun setEnabled(c:Context,value:Boolean){
         c.nightDataStore.edit {
             it[NIGHT_MODE]=value
         }

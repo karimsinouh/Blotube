@@ -11,6 +11,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.toArgb
 import com.example.blotube.data.youtube.items.VideoItem
 import com.example.blotube.ui.theme.BlotubeTheme
 import com.example.blotube.ui.theme.CenterProgressBar
@@ -49,8 +50,6 @@ class VideoInfoActivity:ComponentActivity() {
 
     private val vm by viewModels<VideoInfoViewModel>()
 
-    @Inject
-    lateinit var nightMode: NightMode
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,9 +62,12 @@ class VideoInfoActivity:ComponentActivity() {
 
         setContent {
 
-            val nightMode=nightMode.isEnabled.collectAsState(initial = false)
+            val nightMode=NightMode.isEnabled(this).collectAsState(initial = false)
 
             BlotubeTheme(nightMode.value) {
+
+                window.statusBarColor=MaterialTheme.colors.primaryVariant.toArgb()
+
                 Column(Modifier.background(MaterialTheme.colors.background)) {
 
                     CustomYoutubePlayer(

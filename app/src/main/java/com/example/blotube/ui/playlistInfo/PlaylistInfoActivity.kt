@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -64,8 +65,6 @@ class PlaylistInfoActivity: ComponentActivity() {
 
     private val vm by viewModels<PlaylistInfoViewModel>()
 
-    @Inject lateinit var nightMode: NightMode
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -77,9 +76,12 @@ class PlaylistInfoActivity: ComponentActivity() {
 
         setContent {
 
-            val nightMode=nightMode.isEnabled.collectAsState(initial = false)
+            val nightMode=NightMode.isEnabled(this).collectAsState(initial = false)
 
             BlotubeTheme(nightMode.value) {
+
+                window.statusBarColor=MaterialTheme.colors.primaryVariant.toArgb()
+
                 Column(Modifier.background(MaterialTheme.colors.background)) {
                     if(vm.video.value!=null){
                         CustomYoutubePlayer(

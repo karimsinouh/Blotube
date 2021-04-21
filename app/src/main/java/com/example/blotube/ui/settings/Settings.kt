@@ -11,6 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.blotube.api.database.Database
 import com.example.blotube.util.NightMode
@@ -19,9 +20,10 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun Settings(
-    db: Database,
-    nightMode: NightMode
+    db: Database
     ){
+
+    val c= LocalContext.current
 
     val scope= rememberCoroutineScope()
 
@@ -29,7 +31,7 @@ fun Settings(
 
     val switchColor=SwitchDefaults.colors(checkedThumbColor = MaterialTheme.colors.primary)
 
-    val checked=nightMode.isEnabled.collectAsState(initial = false)
+    val nightMode=NightMode.isEnabled(c).collectAsState(initial = false)
 
     Column(
         Modifier
@@ -47,10 +49,10 @@ fun Settings(
                         .weight(0.9f))
 
                 Switch(
-                    checked = checked.value,
+                    checked = nightMode.value,
                     onCheckedChange = {
                         scope.launch {
-                            nightMode.setEnabled(it)
+                            NightMode.setEnabled(c,it)
                         } },
                     colors = switchColor)
             }
