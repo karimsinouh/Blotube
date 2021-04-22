@@ -9,6 +9,7 @@ import com.example.blotube.api.blogger.BlogsRepository
 import com.example.blotube.api.youtube.YoutubeRepository
 import com.example.blotube.data.blogger.Blog
 import com.example.blotube.data.youtube.items.PlaylistItem
+import com.example.blotube.data.youtube.items.SearchItem
 import com.example.blotube.data.youtube.items.VideoItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -120,4 +121,20 @@ class MainViewModel @Inject constructor(
             }
         }
     }
+
+    fun searchInYoutube(q:String,listener:(List<SearchItem>)->Unit){
+        searchLoading.value=true
+        viewModelScope.launch {
+            youtube.search(q){
+                searchLoading.value=false
+
+                if (it.isSuccessful)
+                    listener(it.data ?: emptyList())
+                else
+                    message.value= ScreenMessage(Screen.ScreenSearch.root,it.message!!)
+
+            }
+        }
+    }
+
 }

@@ -33,5 +33,10 @@ class BlogsRepository @Inject constructor (
         }
     }
 
+    suspend fun search(q:String,listener: (Result<List<Blog>>) -> Unit){
+        api.search(q).apply {
+            listener(Result(isSuccessful,body()?.items,message()))
+        }
+    }
 
 }
