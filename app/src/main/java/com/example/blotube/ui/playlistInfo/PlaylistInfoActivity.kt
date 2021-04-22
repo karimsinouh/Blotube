@@ -36,7 +36,6 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.Abs
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.YouTubePlayerTracker
 import javax.inject.Inject
 
-@ExperimentalFoundationApi
 @AndroidEntryPoint
 class PlaylistInfoActivity: ComponentActivity() {
 
@@ -100,6 +99,7 @@ class PlaylistInfoActivity: ComponentActivity() {
 
     }
 
+    @OptIn(ExperimentalFoundationApi::class)
     @Composable
     private fun Content()= LazyColumn{
 

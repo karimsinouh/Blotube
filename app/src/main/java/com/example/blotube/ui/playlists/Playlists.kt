@@ -17,6 +17,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.blotube.data.youtube.items.PlaylistItem
+import com.example.blotube.data.youtube.items.SearchItem
 import com.example.blotube.ui.main.MainViewModel
 import com.example.blotube.ui.playlistInfo.PlaylistInfoActivity
 import com.example.blotube.ui.theme.CenterProgressBar
@@ -90,10 +91,19 @@ fun PlaylistItem(playlist: PlaylistItem, onClick: () -> Unit){
     }
 }
 
-@ExperimentalFoundationApi
+
 fun showPlaylist(c:Context, playlist: PlaylistItem){
     val intent=Intent(c,PlaylistInfoActivity::class.java).also {
         it.putExtra("playlist_id",playlist.id)
+        it.putExtra("playlist_thumbnail",playlist.snippet.thumbnails.medium.url)
+        it.putExtra("playlist_title",playlist.snippet.title)
+    }
+    c.startActivity(intent)
+}
+
+fun showSearchPlaylist(c:Context, playlist: SearchItem){
+    val intent=Intent(c,PlaylistInfoActivity::class.java).also {
+        it.putExtra("playlist_id",playlist.id.playlistId)
         it.putExtra("playlist_thumbnail",playlist.snippet.thumbnails.medium.url)
         it.putExtra("playlist_title",playlist.snippet.title)
     }
