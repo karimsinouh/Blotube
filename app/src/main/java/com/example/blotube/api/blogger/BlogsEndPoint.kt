@@ -19,4 +19,7 @@ interface BlogsEndPoint {
     @GET("blogs/${ApiConstants.BLOG_ID}/posts?key=${ApiConstants.API_KEY}&fetchImages=true")
     suspend fun getMorePosts( @Query("pageToken") pageToken:String ):Response<ResponsePage<Blog>>
 
+    @GET("https://www.googleapis.com/blogger/v3/blogs/${ApiConstants.BLOG_ID}/posts/search")
+    suspend fun search( @Query("q") q:String ):Response<ResponsePage<Blog>>
+
 }
