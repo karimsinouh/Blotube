@@ -76,17 +76,34 @@ fun SearchBar(
 }
 
 @Composable
-fun VideoItemSmall(
+fun SearchItem(
     type:String?="youtube",
     youtube:SearchItem?=null,
     post:Blog?=null,
 ){
 
+    val title:String
+    val date:String
+    val thumbnail:String
+    val id:String
+
+    if(type=="youtube"){
+        title=youtube?.snippet?.title!!
+        date=youtube.snippet.publishedAt
+        thumbnail=youtube.snippet.thumbnails.medium.url
+        id=youtube.id.videoId ?: youtube.id.playlistId!!
+    }else{
+        title=post?.title!!
+        date=post.published!!
+        thumbnail=if(post.images==null || post.images.isEmpty()) "" else post.images[0].url
+        id=post.id!!
+    }
+
     Box(Modifier.clickable {  }) {
         Row(Modifier.padding(8.dp)) {
 
             CoilImage(
-                data="video.snippet.thumbnails.medium.url",
+                data=thumbnail,
                 contentDescription="",
                 modifier = Modifier
                     .width(140.dp)
@@ -100,12 +117,12 @@ fun VideoItemSmall(
 
             Column {
                 Text(
-                    text = "video.snippet.title",
+                    text = title,
                     fontSize = 18.sp,
                     maxLines = 2
                 )
                 Spacer(Modifier.height(4.dp))
-                Text("video.snippet.publishedAt")
+                Text(date)
             }
 
         }

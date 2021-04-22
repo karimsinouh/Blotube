@@ -143,7 +143,7 @@ class MainActivity : ComponentActivity() {
             //Bottom Navigation
             composable(Screen.ScreenHome.root){ Home(vm,navController) }
             composable(Screen.ScreenVideos.root){ Videos(vm) }
-            composable(Screen.ScreenSearch.root){ Search() }
+            composable(Screen.ScreenSearch.root){ Search(vm) }
             composable(Screen.ScreenPlaylists.root){ Playlists(vm) }
             composable(Screen.ScreenBlogs.root){ Blogs(vm) }
 

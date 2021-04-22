@@ -1,5 +1,6 @@
 package com.example.blotube.ui.main
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -102,6 +103,20 @@ class MainViewModel @Inject constructor(
 
             }else{
                 message.value= ScreenMessage("playlists",it.message!!)
+            }
+        }
+    }
+
+    fun searchInBlog(q:String,listener:(List<Blog>)->Unit){
+        searchLoading.value=true
+        viewModelScope.launch {
+            blogger.search(q){
+                searchLoading.value=false
+                if(it.isSuccessful){
+                    listener(it.data ?: emptyList())
+                }else{
+                    message.value= ScreenMessage(Screen.ScreenSearch.root,it.message!!)
+                }
             }
         }
     }
