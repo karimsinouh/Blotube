@@ -51,7 +51,6 @@ fun Playlists(vm:MainViewModel){
             if (isLoadingMore){
                 item {
                     CenterProgressBar(false)
-                    Spacer(modifier = Modifier.height(60.dp))
                 }
             }
 

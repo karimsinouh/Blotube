@@ -4,8 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
@@ -14,12 +15,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
@@ -35,14 +36,11 @@ import com.example.blotube.ui.search.Search
 import com.example.blotube.ui.settings.Settings
 import com.example.blotube.ui.theme.BlotubeTheme
 import com.example.blotube.ui.theme.DrawerShape
-import com.example.blotube.ui.theme.RoundedShape
 import com.example.blotube.ui.videos.Videos
 import com.example.blotube.util.NightMode
 import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.android.material.color.MaterialColors
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -77,7 +75,7 @@ class MainActivity : ComponentActivity() {
 
             scope= rememberCoroutineScope()
 
-            val shouldShowMenu=vm.menuItems.containsRoot(currentRoot)
+            val shouldShowBottomNav=vm.menuItems.containsRoot(currentRoot)
 
             val nightMode=NightMode.isEnabled(this).collectAsState(initial = false)
 
@@ -86,8 +84,8 @@ class MainActivity : ComponentActivity() {
                 window.statusBarColor=MaterialTheme.colors.primaryVariant.toArgb()
 
                 Scaffold(
-                    bottomBar = { BottomBar(shouldShowMenu) },
-                    topBar = {TopBar(shouldShowMenu)},
+                    bottomBar = { BottomBar(shouldShowBottomNav) },
+                    topBar = {TopBar(shouldShowBottomNav)},
                     drawerContent = {
                         Drawer(currentRoot){
                             navigate(it.root)
@@ -138,17 +136,20 @@ class MainActivity : ComponentActivity() {
             scaffoldState.drawerState.open()
         }
 
-    private fun closeDrawer(){
-        scope.launch {
-            scaffoldState.drawerState.close()
-        }
+    private fun closeDrawer()=scope.launch {
+        scaffoldState.drawerState.close()
     }
+
 
     @ExperimentalFoundationApi
     @Composable
     @Preview
     private fun Content()=
-        NavHost(navController = navController,startDestination = Screen.ScreenHome.root){
+        NavHost(
+            navController = navController,
+            startDestination = Screen.ScreenHome.root,
+            modifier=Modifier.padding(PaddingValues(0.dp,0.dp,0.dp,57.dp))
+            ){
 
             //Bottom Navigation
             composable(Screen.ScreenHome.root){ Home(vm,navController) }
