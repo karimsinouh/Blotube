@@ -28,5 +28,8 @@
     <string name="confirm">Confirm</string>
     <string name="clear_watch_later_text">Please confirm that you want to delete all the videos in watch later</string>
     <string name="clear_read_later_text">Please confirm that you want to delete all the posts in read later</string>
+    <string name="empty_title">It\'s a bit empty here</string>
+    <string name="empty_read_later_text">it seems like you haven\'t added any posts to your read later list yet</string>
+    <string name="empty_watch_later_text">Oh, you haven\'t added any videos to your watch later list</string>
 
 </resources>

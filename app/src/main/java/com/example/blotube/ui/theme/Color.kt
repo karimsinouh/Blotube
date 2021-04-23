@@ -4,6 +4,7 @@ import androidx.compose.ui.graphics.Color
 
 
 val Primary200 = Color(0xFFFFCC80)
+val Primary300 = Color(0xFFD6A458)
 val Primary500 = Color(0xFFFF9800)
 val Primary700 = Color(0xFFF57C00)
 

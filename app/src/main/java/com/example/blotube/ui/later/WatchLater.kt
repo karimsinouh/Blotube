@@ -24,22 +24,28 @@ import com.example.blotube.api.database.entity.VideosEntity
 import com.example.blotube.ui.theme.ImagePlaceholder
 import com.example.blotube.ui.theme.RoundedShape
 import com.example.blotube.ui.videos.showVideoInfo
+import com.example.blotube.util.Empty
 import com.google.accompanist.coil.CoilImage
 
 @Composable
 fun WatchLater(db:Database){
 
 
-    val videos=db.videos().getAll().observeAsState(initial = emptyList())
+    val videos=db.videos().getAll().observeAsState()
 
     val context= LocalContext.current
 
-    LazyColumn {
-        items(videos.value.reversed()){item->
-            WatchLaterItem(item) {
-                showVideoInfo(context,item.id)
+    videos.value?.let {
+        if (it.isEmpty()){
+            Empty(stringResource(R.string.empty_watch_later_text))
+        }else
+            LazyColumn {
+                items(it.reversed()){item->
+                    WatchLaterItem(item) {
+                        showVideoInfo(context,item.id)
+                    }
+                }
             }
-        }
     }
 
 }

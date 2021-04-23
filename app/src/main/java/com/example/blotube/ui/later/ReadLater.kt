@@ -11,28 +11,41 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.blotube.R
 import com.example.blotube.api.database.Database
 import com.example.blotube.api.database.entity.PostsEntity
 import com.example.blotube.ui.blogs.showPost
 import com.example.blotube.ui.theme.ImagePlaceholder
 import com.example.blotube.ui.theme.RoundedShape
+import com.example.blotube.util.Empty
 import com.google.accompanist.coil.CoilImage
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun ReadLater(db: Database){
 
-    val posts=db.posts().getAll().observeAsState(initial = emptyList())
+    val posts=db.posts().getAll().observeAsState()
     val c= LocalContext.current
 
-    LazyColumn {
-        items(posts.value.reversed()){item->
-            ReadLaterItem(item){
-                showPost(c,item.id)
+    posts.value?.let {
+        if (it.isEmpty()){
+            Empty(stringResource(R.string.empty_read_later_text))
+        }else
+            LazyColumn {
+                items(it.reversed()){item->
+                    ReadLaterItem(item){
+                        showPost(c,item.id)
+                    }
+                }
             }
-        }
     }
+
 
 }
 
