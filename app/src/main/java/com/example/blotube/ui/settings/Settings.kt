@@ -97,6 +97,7 @@ fun Settings(
             scope.launch {
                 db.videos().deleteAll()
             }
+            watchLaterState.value=false
         }
 
 
@@ -109,6 +110,7 @@ fun Settings(
             scope.launch {
                 db.posts().deleteAll()
             }
+            readLaterState.value=false
         }
     
 }
