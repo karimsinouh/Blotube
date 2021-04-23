@@ -52,7 +52,7 @@ class MainViewModel @Inject constructor(
     val videos= mutableStateListOf<VideoItem>()
     val playlists= mutableStateListOf<PlaylistItem>()
 
-    val message= mutableStateOf<ScreenMessage?>(null)
+    val message= mutableStateOf<String?>(null)
 
     fun loadPosts()=viewModelScope.launch{
 
@@ -65,9 +65,9 @@ class MainViewModel @Inject constructor(
             if(it.isSuccessful){
                 postsNextPageToken=it.data?.nextPageToken?:""
                 blogs.addAll(it.data?.items?: emptyList())
-            }else{
-                message.value= ScreenMessage("blogs",it.message!!)
-            }
+            }else
+                message.value= it.message
+
         }
 
     }
@@ -80,12 +80,12 @@ class MainViewModel @Inject constructor(
 
         youtube.getVideos(videosNextPageToken){
             videosLoading.value=false
-            if(it.isSuccessful){
-                videosNextPageToken=it.data?.nextPageToken?:""
-                videos.addAll(it.data?.items?: emptyList())
-            }else{
-                message.value=ScreenMessage("videos",it.message!!)
-            }
+            if(it.isSuccessful) {
+                videosNextPageToken = it.data?.nextPageToken ?: ""
+                videos.addAll(it.data?.items ?: emptyList())
+            } else
+                message.value= it.message
+
         }
     }
 
@@ -102,9 +102,9 @@ class MainViewModel @Inject constructor(
                 playlists.addAll(it.data?.items ?: emptyList())
                 playlistsNextPageToken=it.data?.nextPageToken?:""
 
-            }else{
-                message.value= ScreenMessage("playlists",it.message!!)
-            }
+            }else
+                message.value= it.message
+
         }
     }
 
@@ -113,11 +113,16 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             blogger.search(q){
                 searchLoading.value=false
-                if(it.isSuccessful){
-                    listener(it.data ?: emptyList())
-                }else{
-                    message.value= ScreenMessage(Screen.ScreenSearch.root,it.message!!)
+                if(it.isSuccessful) {
+                    val data=it.data ?: emptyList()
+                    listener(data)
+                    if (data.isEmpty()){
+                        message.value="Couldn't find anything"
+                    }
                 }
+                else
+                    message.value= it.message
+
             }
         }
     }
@@ -128,10 +133,14 @@ class MainViewModel @Inject constructor(
             youtube.search(q){
                 searchLoading.value=false
 
-                if (it.isSuccessful)
-                    listener(it.data ?: emptyList())
+                if (it.isSuccessful) {
+                    val data= it.data ?: emptyList()
+                    listener(data)
+                    if(data.isEmpty())
+                        message.value="Couldn't find anything"
+                }
                 else
-                    message.value= ScreenMessage(Screen.ScreenSearch.root,it.message!!)
+                    message.value= it.message
 
             }
         }

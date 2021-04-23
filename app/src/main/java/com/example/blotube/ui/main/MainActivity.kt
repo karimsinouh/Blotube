@@ -15,6 +15,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -22,6 +23,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
+import com.example.blotube.R
 import com.example.blotube.api.database.Database
 import com.example.blotube.ui.blogs.Blogs
 import com.example.blotube.ui.drawer.Drawer
@@ -96,6 +98,14 @@ class MainActivity : ComponentActivity() {
                 ) {
                     Content()
                 }
+
+            }
+
+            vm.message.value?.let {
+                scope.launch {
+                    scaffoldState.snackbarHostState.showSnackbar(it,actionLabel = "Ok")
+                }
+                vm.message.value=null
             }
 
         }
@@ -120,7 +130,7 @@ class MainActivity : ComponentActivity() {
                     navController.popBackStack()
                 }) { Icon(imageVector = Icons.Outlined.ArrowBack, contentDescription = "") }
 
-            Text(text = "Blotube",fontSize = 16.sp)
+            Text(stringResource(id = R.string.app_name),fontSize = 16.sp)
         }
     }
 
