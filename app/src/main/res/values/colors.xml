@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary_200">#FFFFCC80</color>
-    <color name="primary_500">#FFFF9800</color>
-    <color name="primary_700">#FFF57C00</color>
 
-    <color name="teal_200">#FFFFCC80</color>
-    <color name="teal_700">#FFFF9800</color>
+    <color name="primary_500">#1DB954</color>
+    <color name="primary_700">#169844</color>
+
 
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
