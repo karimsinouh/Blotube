@@ -15,6 +15,7 @@ import com.example.blotube.data.blogger.Author
 import com.example.blotube.data.blogger.Blog
 import com.example.blotube.ui.theme.ImagePlaceholder
 import com.example.blotube.ui.theme.RoundedShape
+import com.example.blotube.util.asDate
 import com.google.accompanist.coil.CoilImage
 
 @Composable
@@ -27,7 +28,6 @@ fun BlogItem(blog:Blog, onClick: ()->Unit){
 
         Column(Modifier.padding(12.dp),verticalArrangement = Arrangement.spacedBy(4.dp)) {
 
-            val defPicture="https://www.androidcentral.com/sites/androidcentral.com/files/topic_images/2014/materialdesign_principles_metaphor.png"
 
             CoilImage(
                 data=blog.images!![0].url ,
@@ -46,7 +46,7 @@ fun BlogItem(blog:Blog, onClick: ()->Unit){
                 maxLines = 2
             )
 
-            Author(author = blog.author)
+            Author(author = blog.author,publishedAt = blog.published)
 
 
         }
@@ -86,7 +86,7 @@ fun BlogItemSmall(blog:Blog,onClick: () -> Unit){
 }
 
 @Composable
-fun Author(author:Author){
+fun Author(author:Author,publishedAt:String?){
 
     Row(horizontalArrangement = Arrangement.spacedBy(8.dp),verticalAlignment = Alignment.CenterVertically) {
         CoilImage(
@@ -102,7 +102,7 @@ fun Author(author:Author){
 
         Column {
             Text(author.displayName)
-            Text(text = "2 days ago",fontSize = 10.sp)
+            Text(text = publishedAt.asDate(),fontSize = 10.sp)
         }
     }
 }

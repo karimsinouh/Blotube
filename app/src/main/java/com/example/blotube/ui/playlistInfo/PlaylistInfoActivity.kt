@@ -31,6 +31,7 @@ import com.example.blotube.ui.theme.BlotubeTheme
 import com.example.blotube.ui.videoInfo.CustomYoutubePlayer
 import com.example.blotube.ui.videos.shareVideo
 import com.example.blotube.util.NightMode
+import com.example.blotube.util.asDate
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.YouTubePlayerTracker
@@ -130,7 +131,7 @@ class PlaylistInfoActivity: ComponentActivity() {
                     )
 
                     Text(
-                        vm.video.value!!.snippet.publishedAt,
+                        vm.video.value!!.snippet.publishedAt.asDate(),
                         modifier = Modifier.padding(8.dp))
 
                     Spacer(modifier = Modifier.height(8.dp))

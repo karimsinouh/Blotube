@@ -28,6 +28,7 @@ import com.google.accompanist.coil.CoilImage
 import com.example.blotube.R
 import com.example.blotube.api.database.entity.VideosEntity
 import com.example.blotube.ui.videoInfo.VideoInfoActivity
+import com.example.blotube.util.asDate
 
 
 @Composable
@@ -64,7 +65,7 @@ fun VideoItem(video:VideoItem, onClick: ()->Unit){
                 maxLines = 2
             )
 
-            Text(video.snippet.publishedAt)
+            Text(video.snippet.publishedAt.asDate())
 
         }
     }
@@ -96,7 +97,7 @@ fun VideoItemSmall(video: VideoItem, onClick: () -> Unit){
                     maxLines = 2
                 )
                 Spacer(Modifier.height(4.dp))
-                Text(video.snippet.publishedAt)
+                Text(video.snippet.publishedAt.asDate())
             }
 
         }

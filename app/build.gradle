@@ -93,5 +93,8 @@ dependencies {
     //dataStore
     implementation "androidx.datastore:datastore-preferences:1.0.0-beta01"
 
+    //time formatter
+    implementation 'org.ocpsoft.prettytime:prettytime:4.0.4.Final'
+
 
 }

@@ -19,6 +19,7 @@ import com.example.blotube.R
 import com.example.blotube.data.youtube.Statistics
 import com.example.blotube.data.youtube.items.VideoItem
 import com.example.blotube.util.Formatter
+import com.example.blotube.util.asDate
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 
@@ -70,7 +71,7 @@ fun VideoInfoLayout(
         )
 
         Text(
-            video.snippet.publishedAt,
+            video.snippet.publishedAt.asDate(),
             color=MaterialTheme.colors.onBackground
         )
         Spacer(modifier = Modifier.height(8.dp))

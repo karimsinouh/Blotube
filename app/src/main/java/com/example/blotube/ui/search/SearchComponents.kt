@@ -21,6 +21,7 @@ import com.example.blotube.data.blogger.Blog
 import com.example.blotube.data.youtube.items.SearchItem
 import com.example.blotube.ui.theme.ImagePlaceholder
 import com.example.blotube.ui.theme.RoundedShape
+import com.example.blotube.util.asDate
 import com.google.accompanist.coil.CoilImage
 
 @Composable
@@ -100,7 +101,7 @@ fun SearchItem(video: SearchItem, onClick: () -> Unit){
                     maxLines = 2
                 )
                 Spacer(Modifier.height(4.dp))
-                Text(video.snippet.publishedAt)
+                Text(video.snippet.publishedAt.asDate())
             }
 
         }
@@ -127,7 +128,8 @@ fun BlogSearchItem(
             Spacer(modifier = Modifier.width(8.dp))
             Column {
                 Text(post.title ?: "",fontSize = 18.sp)
-                Text(post.published!!,
+                Text(
+                    text=post.published.asDate(),
                     color = MaterialTheme.colors.onBackground.copy(alpha = 0.68f),
                     fontSize = 12.sp
                 )
