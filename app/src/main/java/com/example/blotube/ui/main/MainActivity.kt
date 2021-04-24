@@ -81,7 +81,11 @@ class MainActivity : ComponentActivity() {
 
             BlotubeTheme(nightMode.value){
 
-                window.statusBarColor=MaterialTheme.colors.primaryVariant.toArgb()
+                window.statusBarColor=
+                    if(nightMode.value)
+                        MaterialTheme.colors.surface.toArgb()
+                    else
+                        MaterialTheme.colors.primaryVariant.toArgb()
 
                 Scaffold(
                     bottomBar = { BottomBar(shouldShowBottomNav) },
@@ -113,11 +117,7 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     private fun TopBar(visible: Boolean){
-        TopAppBar(
-            backgroundColor = MaterialTheme.colors.primary,
-            contentColor = MaterialTheme.colors.onPrimary,
-            elevation = 1.dp
-        ) {
+        TopAppBar {
 
             if(visible)
                 IconButton(onClick = {
@@ -152,7 +152,7 @@ class MainActivity : ComponentActivity() {
         NavHost(
             navController = navController,
             startDestination = Screen.ScreenHome.root,
-            modifier= if (makePadding) Modifier.padding(PaddingValues(0.dp,0.dp,0.dp,57.dp)) else Modifier
+            modifier= if (makePadding) Modifier.padding(PaddingValues(0.dp,0.dp,0.dp,55.dp)) else Modifier
             ){
 
             //Bottom Navigation

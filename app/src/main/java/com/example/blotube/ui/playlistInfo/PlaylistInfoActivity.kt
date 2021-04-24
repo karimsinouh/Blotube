@@ -1,6 +1,7 @@
 package com.example.blotube.ui.playlistInfo
 
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -65,6 +66,11 @@ class PlaylistInfoActivity: ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+        )
+
         playlistId=intent.getStringExtra("playlist_id")!!
         playlistTitle=intent.getStringExtra("playlist_title")!!
         playlistThumbnail=intent.getStringExtra("playlist_thumbnail")!!
@@ -76,8 +82,6 @@ class PlaylistInfoActivity: ComponentActivity() {
             val nightMode=NightMode.isEnabled(this).collectAsState(initial = false)
 
             BlotubeTheme(nightMode.value) {
-
-                window.statusBarColor=MaterialTheme.colors.primaryVariant.toArgb()
 
                 Surface(
                     color=MaterialTheme.colors.background,

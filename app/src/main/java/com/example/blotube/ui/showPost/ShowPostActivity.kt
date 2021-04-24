@@ -53,7 +53,11 @@ class ShowPostActivity : ComponentActivity() {
 
             BlotubeTheme(nightMode.value) {
 
-                window.statusBarColor=MaterialTheme.colors.primaryVariant.toArgb()
+                window.statusBarColor=
+                    if(nightMode.value)
+                        MaterialTheme.colors.surface.toArgb()
+                    else
+                        MaterialTheme.colors.primaryVariant.toArgb()
 
                 Surface (
                     color=MaterialTheme.colors.background,
@@ -83,13 +87,7 @@ class ShowPostActivity : ComponentActivity() {
     @Composable
     @Preview
     private fun TopBar(){
-        TopAppBar(
-            backgroundColor = MaterialTheme.colors.primary,
-            contentColor = MaterialTheme.colors.onPrimary,
-            elevation = 0.dp
-        ) {
-
-
+        TopAppBar {
 
             IconButton(onClick = {
                 finish()

@@ -23,6 +23,12 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.Abs
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.YouTubePlayerTracker
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import android.view.WindowManager
+
+import android.os.Build
+
+
+
 
 @AndroidEntryPoint
 class VideoInfoActivity:ComponentActivity() {
@@ -55,6 +61,10 @@ class VideoInfoActivity:ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+        )
 
         videoId=intent.getStringExtra("video_id") ?: "none"
 
@@ -67,7 +77,6 @@ class VideoInfoActivity:ComponentActivity() {
 
             BlotubeTheme(nightMode.value) {
 
-                window.statusBarColor=MaterialTheme.colors.primaryVariant.toArgb()
 
                 Surface(
                     color=MaterialTheme.colors.background,
