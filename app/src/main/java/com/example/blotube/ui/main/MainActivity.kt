@@ -94,14 +94,14 @@ class MainActivity : ComponentActivity() {
                     drawerShape = DrawerShape,
                     scaffoldState = scaffoldState,
                 ) {
-                    Content()
+                    Content(shouldShowBottomNav)
                 }
 
             }
 
             vm.message.value?.let {
                 scope.launch {
-                    scaffoldState.snackbarHostState.showSnackbar(it,actionLabel = "Ok")
+                    scaffoldState.snackbarHostState.showSnackbar(it,actionLabel = getString(R.string.ok))
                 }
                 vm.message.value=null
             }
@@ -141,14 +141,18 @@ class MainActivity : ComponentActivity() {
     }
 
 
+    /**
+     * param makePadding: it makes padding in the bottom of the screen
+     * so the BottomNav doesn't cover the content
+     * it's used only in the screens that contain BottomNav
+     * */
     @ExperimentalFoundationApi
     @Composable
-    @Preview
-    private fun Content()=
+    private fun Content(makePadding:Boolean)=
         NavHost(
             navController = navController,
             startDestination = Screen.ScreenHome.root,
-            modifier=Modifier.padding(PaddingValues(0.dp,0.dp,0.dp,57.dp))
+            modifier= if (makePadding) Modifier.padding(PaddingValues(0.dp,0.dp,0.dp,57.dp)) else Modifier
             ){
 
             //Bottom Navigation

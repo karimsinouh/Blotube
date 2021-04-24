@@ -31,5 +31,6 @@
     <string name="empty_title">It\'s a bit empty here</string>
     <string name="empty_read_later_text">it seems like you haven\'t added any posts to your read later list yet</string>
     <string name="empty_watch_later_text">Oh, you haven\'t added any videos to your watch later list</string>
+    <string name="ok">Ok</string>
 
 </resources>
