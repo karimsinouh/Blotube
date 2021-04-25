@@ -27,6 +27,7 @@ import android.view.WindowManager
 
 import android.os.Build
 import android.util.Log
+import androidx.compose.foundation.layout.fillMaxSize
 import com.example.blotube.R
 
 @AndroidEntryPoint
@@ -70,6 +71,7 @@ class VideoInfoActivity:ComponentActivity() {
                 Surface(
                     color=MaterialTheme.colors.background,
                     contentColor= MaterialTheme.colors.onBackground,
+                    modifier = Modifier.fillMaxSize()
                 ) {
 
                     Column {

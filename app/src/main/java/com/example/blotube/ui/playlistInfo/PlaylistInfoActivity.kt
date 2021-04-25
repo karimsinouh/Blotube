@@ -86,6 +86,7 @@ class PlaylistInfoActivity: ComponentActivity() {
                 Surface(
                     color=MaterialTheme.colors.background,
                     contentColor= MaterialTheme.colors.onBackground,
+                    modifier = Modifier.fillMaxSize()
                 ) {
                     Column {
                         val video=vm.video.observeAsState(null)
