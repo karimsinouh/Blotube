@@ -1,24 +1,14 @@
 package com.example.blotube.ui.drawer
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import com.example.blotube.R
 import com.example.blotube.ui.main.Screen
 
 @ExperimentalMaterialApi
@@ -29,17 +19,13 @@ fun Drawer(
 ){
 
     val drawerScreens= listOf(
-        Screen.ScreenWatchLater,Screen.ScreenReadLater,Screen.ScreenSettings
+        Screen.ScreenHome,
+        Screen.ScreenWatchLater,
+        Screen.ScreenReadLater,
+        Screen.ScreenSettings
     )
 
     Column {
-        Image(painter = painterResource(id = R.drawable.drawer_header),
-            contentDescription = "",
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(180.dp),
-            contentScale = ContentScale.Crop
-        )
         drawerScreens.forEach {
             val selected=it.root==currentRoute
             DrawerRow(

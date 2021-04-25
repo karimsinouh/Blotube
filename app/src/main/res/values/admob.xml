@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_id">app_id</string>
+    <string name="banner">app_id</string>
+    <string name="interstitial">app_id</string>
+</resources>
