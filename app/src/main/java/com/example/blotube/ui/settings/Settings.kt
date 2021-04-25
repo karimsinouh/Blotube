@@ -1,5 +1,8 @@
 package com.example.blotube.ui.settings
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -79,8 +82,11 @@ fun Settings(
 
         Divider()
         ListItem(
-            icon= { Icon(imageVector = Icons.Outlined.Feedback, contentDescription = "") }
-            ) {
+            icon= { Icon(imageVector = Icons.Outlined.Feedback, contentDescription = "") },
+            modifier = Modifier.clickable {
+                openFeedbackUrl(c)
+            }
+        ) {
             Text(text = stringResource(R.string.feedback))
         }
     }
@@ -113,6 +119,12 @@ fun Settings(
             readLaterState.value=false
         }
     
+}
+
+fun openFeedbackUrl(c: Context) {
+    val i=Intent(Intent.ACTION_VIEW)
+    i.data= Uri.parse(c.getString(R.string.feedback_url))
+    c.startActivity(i)
 }
 
 @Composable

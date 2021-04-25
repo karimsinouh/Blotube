@@ -8,7 +8,6 @@
     <string name="home">Home</string>
     <string name="see_all">See All</string>
     <string name="remove">Remove</string>
-
     <string name="title_activity_show_post">ShowPostActivity</string>
     <string name="title_activity_video_info">Video Info</string>
     <string name="share">Share</string>
@@ -32,5 +31,7 @@
     <string name="empty_read_later_text">it seems like you haven\'t added any posts to your read later list yet</string>
     <string name="empty_watch_later_text">Oh, you haven\'t added any videos to your watch later list</string>
     <string name="ok">Ok</string>
+
+    <string name="feedback_url">https://google.com</string>
 
 </resources>
