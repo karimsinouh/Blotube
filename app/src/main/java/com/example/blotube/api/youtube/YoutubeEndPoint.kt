@@ -22,9 +22,6 @@ interface YoutubeEndPoint {
     @GET("search?part=snippet&channelId=$CHANNEL_ID&key=$API_KEY&maxResults=5")
     suspend fun search( @Query("q") q:String,@Query("pageToken") pageToken:String?="" ):Response<ResponsePage<SearchItem>>
 
-    @GET("videos?part=snippet&key=$API_KEY")
-    suspend fun getSelectedVideos( @Query("id") ids:String ):Response<ResponsePage<VideoItem>>
-
     @GET("videos?part=snippet,contentDetails,statistics&key=$API_KEY")
     suspend fun getVideo( @Query("id") id:String ):Response<ResponsePage<VideoItem>>
 
