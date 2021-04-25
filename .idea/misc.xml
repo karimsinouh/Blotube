@@ -4,6 +4,9 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Android projects/compose/Blotube/app/src/main/res/drawable/ic_box.xml" value="0.19722222222222222" />
+        <entry key="..\:/Android projects/compose/Blotube/app/src/main/res/drawable/ic_splash_logo.xml" value="0.2037037037037037" />
+        <entry key="..\:/Android projects/compose/Blotube/app/src/main/res/drawable/splash.xml" value="0.2037037037037037" />
+        <entry key="..\:/Android projects/compose/Blotube/app/src/main/res/drawable/splash_background.xml" value="0.2037037037037037" />
       </map>
     </option>
   </component>

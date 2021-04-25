@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.lifecycleScope
+import com.example.blotube.R
 import com.example.blotube.ui.theme.BlotubeTheme
 import com.example.blotube.ui.theme.CenterProgressBar
 import com.example.blotube.util.NightMode
@@ -45,7 +46,8 @@ class ShowPostActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        setTheme(R.style.Theme_Blotube_Splash)
+
 
         setContent {
 
