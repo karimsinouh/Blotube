@@ -38,6 +38,7 @@ fun CustomYoutubePlayer(
         modifier = modifier!!,
         factory = {
             YouTubePlayerView(it).apply {
+
                 addYouTubePlayerListener(listener)
                 returnView(this)
             }

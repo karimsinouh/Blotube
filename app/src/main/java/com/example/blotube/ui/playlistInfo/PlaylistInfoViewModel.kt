@@ -1,6 +1,8 @@
 package com.example.blotube.ui.playlistInfo
 
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.blotube.api.database.Database
@@ -20,7 +22,10 @@ class PlaylistInfoViewModel @Inject constructor(
 
     var pageToken=""
 
-    val video= mutableStateOf<VideoItem?>(null)
+    private val _video=MutableLiveData<VideoItem?>()
+    val video:LiveData<VideoItem?> =_video
+
+
     val videos= mutableListOf<VideoItem>()
     val message= mutableStateOf<String?>(null)
     val isLoading= mutableStateOf(false)
@@ -28,7 +33,7 @@ class PlaylistInfoViewModel @Inject constructor(
     fun loadVideo(id:String)=viewModelScope.launch{
         youtube.getVideo(id){
             if(it.isSuccessful){
-                video.value=it.data
+                _video.value=it.data
             }else{
                 message.value=it.message
             }

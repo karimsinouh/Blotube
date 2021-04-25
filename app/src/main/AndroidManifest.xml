@@ -18,10 +18,12 @@
             android:label="@string/title_activity_show_post" />
 
         <activity
+            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
             android:name=".ui.playlistInfo.PlaylistInfoActivity"
             android:label="huhuhu"/>
 
         <activity
+            android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
             android:name=".ui.videoInfo.VideoInfoActivity"
             android:label="@string/title_activity_video_info" />
 

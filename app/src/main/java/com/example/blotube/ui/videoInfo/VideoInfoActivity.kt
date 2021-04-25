@@ -26,9 +26,7 @@ import javax.inject.Inject
 import android.view.WindowManager
 
 import android.os.Build
-
-
-
+import android.util.Log
 
 @AndroidEntryPoint
 class VideoInfoActivity:ComponentActivity() {
@@ -37,20 +35,9 @@ class VideoInfoActivity:ComponentActivity() {
         object :AbstractYouTubePlayerListener(){
             override fun onReady(youTubePlayer: YouTubePlayer) {
                 super.onReady(youTubePlayer)
-                youTubePlayer.loadVideo(videoId,vm.seconds.value?:0f)
-                youTubePlayer.addListener(tracker)
-            }
-
-            override fun onVideoDuration(youTubePlayer: YouTubePlayer, duration: Float) {
-                super.onVideoDuration(youTubePlayer, duration)
-                vm.setSeconds(duration)
+                youTubePlayer.loadVideo(videoId,0f)
             }
         }
-    }
-
-
-    private val tracker by lazy {
-        YouTubePlayerTracker()
     }
 
     private lateinit var videoId:String

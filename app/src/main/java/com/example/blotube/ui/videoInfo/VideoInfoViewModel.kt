@@ -18,16 +18,8 @@ class VideoInfoViewModel @Inject constructor(
     private val youtube:YoutubeRepository,
     private val database: Database
 ):ViewModel() {
-
-    private val _seconds=MutableLiveData(0f)
     val video= mutableStateOf<VideoItem?>(null)
     val message= mutableStateOf<String?>(null)
-
-    val seconds:LiveData<Float> =_seconds
-
-    fun setSeconds(sec:Float){
-        _seconds.value=sec
-    }
 
     fun loadVideo(id:String)=viewModelScope.launch{
         youtube.getVideo(id){

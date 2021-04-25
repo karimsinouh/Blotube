@@ -28,6 +28,7 @@ import com.example.blotube.ui.videos.VideoItemSmall
 import com.google.accompanist.coil.CoilImage
 import dagger.hilt.android.AndroidEntryPoint
 import com.example.blotube.R
+import com.example.blotube.data.youtube.items.VideoItem
 import com.example.blotube.ui.theme.BlotubeTheme
 import com.example.blotube.ui.videoInfo.CustomYoutubePlayer
 import com.example.blotube.ui.videos.shareVideo
@@ -45,17 +46,15 @@ class PlaylistInfoActivity: ComponentActivity() {
     private lateinit var playlistThumbnail:String
     private lateinit var playlistTitle:String
 
-    private val tracker by lazy{
-        YouTubePlayerTracker()
-    }
-
     private val listener by lazy{
         object :AbstractYouTubePlayerListener(){
 
             override fun onReady(youTubePlayer: YouTubePlayer) {
                 super.onReady(youTubePlayer)
-                youTubePlayer.loadVideo(vm.video.value?.id!!,0f)
-                youTubePlayer.addListener(tracker)
+                vm.video.observe(this@PlaylistInfoActivity){
+                    youTubePlayer.loadVideo(it?.id!!,0f)
+                }
+
             }
 
         }
@@ -88,14 +87,15 @@ class PlaylistInfoActivity: ComponentActivity() {
                     contentColor= MaterialTheme.colors.onBackground,
                 ) {
                     Column {
-                        if(vm.video.value!=null){
+                        val video=vm.video.observeAsState(null)
+                        if(video.value!=null){
                             CustomYoutubePlayer(
                                 listener = listener
                             ) {
                                 lifecycle.addObserver(it)
                             }
                         }
-                        Content()
+                        Content(video.value)
                     }
                 }
             }
@@ -106,13 +106,14 @@ class PlaylistInfoActivity: ComponentActivity() {
 
     @OptIn(ExperimentalFoundationApi::class)
     @Composable
-    private fun Content()= LazyColumn{
+    private fun Content(video:VideoItem?)= LazyColumn{
+
 
         //the header of the page
         item {
             Column {
 
-                if (vm.video.value==null) {
+                if (video==null) {
 
                     CoilImage(
                         data=playlistThumbnail,
@@ -126,27 +127,27 @@ class PlaylistInfoActivity: ComponentActivity() {
                     Text(playlistTitle,fontSize = 24.sp,
                         modifier = Modifier.padding(8.dp))
                 }
-                else{
 
+                else{
                     Text(
-                        text = vm.video.value!!.snippet.title,
+                        text = video.snippet.title,
                         fontSize = 24.sp,
                         modifier = Modifier.padding(8.dp)
                     )
 
                     Text(
-                        vm.video.value!!.snippet.publishedAt.asDate(),
+                        video.snippet.publishedAt.asDate(),
                         modifier = Modifier.padding(8.dp))
 
                     Spacer(modifier = Modifier.height(8.dp))
 
-                    val existsInWatchHistory=vm.exists(vm.video.value?.id!!).observeAsState()
+                    val existsInWatchHistory=vm.exists(video.id!!).observeAsState()
 
                     VideoButtons(
-                        statistics = vm.video.value!!.statistics!!,
+                        statistics = video.statistics!!,
                         exists = existsInWatchHistory.value?:false,
                         onShareClick = {
-                            shareVideo(this@PlaylistInfoActivity,vm.video.value?.id!!)
+                            shareVideo(this@PlaylistInfoActivity,video.id)
                         },
                         onWatchLaterChecked= {
                             vm.onWatchLaterChecked(it)
