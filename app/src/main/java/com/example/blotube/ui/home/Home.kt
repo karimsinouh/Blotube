@@ -31,6 +31,7 @@ import com.example.blotube.ui.main.MainViewModel
 import com.example.blotube.ui.main.Screen
 import com.example.blotube.ui.playlists.PlaylistItem
 import com.example.blotube.ui.playlists.showPlaylist
+import com.example.blotube.ui.theme.CenterProgressBar
 import com.example.blotube.ui.theme.ImagePlaceholder
 import com.example.blotube.ui.theme.RoundedShape
 import com.example.blotube.ui.videos.showVideoInfo
@@ -50,7 +51,14 @@ fun Home(
     nav:NavController
 ){
 
+    val stillLoading= vm.videosLoading.value && vm.playlistsLoading.value && vm.postsLoading.value
+
     val context= LocalContext.current
+
+    if(stillLoading) {
+        CenterProgressBar()
+        return
+    }
 
     LazyColumn {
 
