@@ -8,6 +8,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -16,6 +17,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
@@ -28,7 +30,9 @@ import com.example.blotube.ui.videos.VideoItemSmall
 import com.google.accompanist.coil.CoilImage
 import dagger.hilt.android.AndroidEntryPoint
 import com.example.blotube.R
+import com.example.blotube.data.youtube.Snippet
 import com.example.blotube.data.youtube.items.VideoItem
+import com.example.blotube.ui.description.DescriptionDialog
 import com.example.blotube.ui.theme.BlotubeTheme
 import com.example.blotube.ui.videoInfo.CustomYoutubePlayer
 import com.example.blotube.ui.videos.shareVideo
@@ -37,6 +41,7 @@ import com.example.blotube.util.asDate
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.utils.YouTubePlayerTracker
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -62,6 +67,7 @@ class PlaylistInfoActivity: ComponentActivity() {
 
     private val vm by viewModels<PlaylistInfoViewModel>()
 
+    @ExperimentalMaterialApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTheme(R.style.Theme_Blotube_Splash)
@@ -79,27 +85,47 @@ class PlaylistInfoActivity: ComponentActivity() {
 
         setContent {
 
+            val scope= rememberCoroutineScope()
+
             val nightMode=NightMode.isEnabled(this).collectAsState(initial = false)
 
             BlotubeTheme(nightMode.value) {
 
-                Surface(
-                    color=MaterialTheme.colors.background,
-                    contentColor= MaterialTheme.colors.onBackground,
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    Column {
-                        val video=vm.video.observeAsState(null)
-                        if(video.value!=null){
-                            CustomYoutubePlayer(
-                                listener = listener
-                            ) {
-                                lifecycle.addObserver(it)
+                    //bottom sheet
+                    val bottomSheetState= rememberBottomSheetScaffoldState(bottomSheetState = BottomSheetState(BottomSheetValue.Collapsed))
+
+                    val video=vm.video.observeAsState(null)
+
+                    BottomSheetScaffold(
+                        scaffoldState= bottomSheetState,
+                        sheetContent = {
+                            video.value?.let {
+                                DescriptionDialog(it.snippet)
                             }
+                        },
+                        sheetPeekHeight = 0.dp,
+                    ){
+                        Column {
+
+                            if(video.value!=null){
+                                CustomYoutubePlayer(
+                                    listener = listener
+                                ) {
+                                    lifecycle.addObserver(it)
+                                }
+                            }
+                            Content(
+                                video.value,
+                                onTitleClick = {
+                                    scope.launch {
+                                        bottomSheetState.bottomSheetState.expand()
+                                    }
+                                }
+                            )
+
                         }
-                        Content(video.value)
                     }
-                }
+                
             }
 
         }
@@ -108,8 +134,7 @@ class PlaylistInfoActivity: ComponentActivity() {
 
     @OptIn(ExperimentalFoundationApi::class)
     @Composable
-    private fun Content(video:VideoItem?)= LazyColumn{
-
+    private fun Content(video:VideoItem?,onTitleClick:(Snippet)->Unit)= LazyColumn{
 
         //the header of the page
         item {
@@ -134,7 +159,11 @@ class PlaylistInfoActivity: ComponentActivity() {
                     Text(
                         text = video.snippet.title,
                         fontSize = 24.sp,
-                        modifier = Modifier.padding(8.dp)
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .clickable {
+                                onTitleClick(video.snippet)
+                            }
                     )
 
                     Text(
